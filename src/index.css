@@ -1,2 +1,6 @@
 @import 'tailwindcss';
-@plugin "@tailwindcss/forms";
+@plugin '@tailwindcss/forms';
+
+@theme {
+  --font-sans: 'Ubuntu', sans-serif;
+}
