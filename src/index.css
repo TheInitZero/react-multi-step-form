@@ -4,3 +4,31 @@
 @theme {
   --font-sans: 'Ubuntu', sans-serif;
 }
+
+@layer components {
+  [data-signup-progress] {
+    counter-reset: signup-progress;
+  }
+
+  [data-progress-step] {
+    counter-increment: signup-progress;
+  }
+
+  [data-progress-step]::before {
+    content: counter(signup-progress);
+    @apply grid size-8 place-content-center rounded-full border-2 font-medium text-blue-50;
+  }
+
+  [data-progress-step='NotStarted']::before {
+    @apply border-dotted border-yellow-400 bg-yellow-600;
+  }
+
+  [data-progress-step='Current']::before {
+    @apply border-cyan-400 bg-cyan-600;
+  }
+
+  [data-progress-step='Completed']::before {
+    content: '✓';
+    @apply border-green-400 bg-green-600;
+  }
+}
