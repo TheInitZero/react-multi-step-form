@@ -18,6 +18,7 @@ export default function ProgressStep({ title, status }: Props) {
       aria-current={status.kind === 'Current' ? 'step' : undefined}
       aria-labelledby={titleId}
       aria-describedby={descId}
+      data-progress-step={status.kind}
       className="flex items-center gap-2"
     >
       <p
