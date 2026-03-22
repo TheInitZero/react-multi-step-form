@@ -31,9 +31,9 @@ export function none(): None {
 
 export function nullishToMaybe<T>(value: T | null | undefined): Maybe<T> {
   if (value == null) {
-    return { kind: 'None' };
+    return none();
   }
-  return { kind: 'Some', value };
+  return some(value);
 }
 
 export function ok<T>(value: T): Ok<T> {
