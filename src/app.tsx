@@ -1,5 +1,7 @@
 import SignupProgress from './features/signup-progress/signup-progress';
 import ProgressStep from './features/signup-progress/progress-step';
+import SignupForm from './features/signup-form/signup-form';
+import YourInfo from './features/signup-form/your-info/your-info';
 
 export default function App() {
   return (
@@ -17,6 +19,12 @@ export default function App() {
         <ProgressStep status={{ kind: 'NotStarted', description: 'Not started' }} title="Add-ons" />
         <ProgressStep status={{ kind: 'NotStarted', description: 'Not started' }} title="Summary" />
       </SignupProgress>
+
+      <main>
+        <SignupForm>
+          <YourInfo />
+        </SignupForm>
+      </main>
     </div>
   );
 }
