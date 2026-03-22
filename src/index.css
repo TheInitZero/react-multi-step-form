@@ -31,4 +31,12 @@
     content: '✓';
     @apply border-green-400 bg-green-600;
   }
+
+  .btn-primary {
+    @apply rounded-lg border-2 border-blue-500 bg-blue-500 px-3 py-2 text-white shadow-sm focus:outline-2 focus:outline-offset-2 focus:outline-blue-500;
+  }
+
+  .btn-ghost {
+    @apply rounded-lg border-2 border-blue-500 px-3 py-2 text-blue-700 shadow-sm focus:outline-2 focus:outline-offset-2 focus:outline-blue-500;
+  }
 }
