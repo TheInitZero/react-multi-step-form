@@ -39,4 +39,12 @@
   .btn-ghost {
     @apply rounded-lg border-2 border-blue-500 px-3 py-2 text-blue-700 shadow-sm focus:outline-2 focus:outline-offset-2 focus:outline-blue-500;
   }
+
+  .expanded-option-region {
+    @apply relative flex flex-row-reverse justify-between rounded-xl border-2 border-gray-300 p-4 shadow-md focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-blue-500 has-checked:border-blue-500 has-checked:bg-blue-50;
+  }
+
+  .expanded-option {
+    @apply before:absolute before:top-0 before:left-0 before:block before:h-full before:w-full before:content-[''] focus:ring-0;
+  }
 }
