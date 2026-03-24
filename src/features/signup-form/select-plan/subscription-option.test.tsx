@@ -153,7 +153,7 @@ describe('SubscriptionOption', () => {
     expect(radio).toHaveAttribute('value', 'pro');
     expect(radio).toBeRequired();
 
-    expect(radio).toHaveAccessibleDescription('$120.00/yr');
+    expect(radio).toHaveAccessibleDescription('$120/yr');
   });
 
   it('renders yearly bonuses when billing is Yearly and hides them for Monthly billing', () => {
@@ -165,7 +165,7 @@ describe('SubscriptionOption', () => {
       description: { billingPeriod: 'Yearly', price: 60, bonuses: ['Bonus A', 'Bonus B'] },
     });
 
-    expect(screen.getByText('$60.00/yr')).toBeInTheDocument();
+    expect(screen.getByText('$60/yr')).toBeInTheDocument();
     expect(screen.getByText('Bonus A')).toBeInTheDocument();
     expect(screen.getByText('Bonus B')).toBeInTheDocument();
 
@@ -181,7 +181,7 @@ describe('SubscriptionOption', () => {
       />,
     );
 
-    expect(screen.getByText('$15.00/mo')).toBeInTheDocument();
+    expect(screen.getByText('$15/mo')).toBeInTheDocument();
     expect(screen.queryByText('Bonus A')).not.toBeInTheDocument();
     expect(screen.queryByText('Bonus B')).not.toBeInTheDocument();
   });
