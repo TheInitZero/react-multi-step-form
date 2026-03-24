@@ -17,6 +17,5 @@ export function getPriceLabel({
   currencySymbol?: string;
 }): string {
   const suffix = suffixes[billingPeriod];
-  const formattedAmount = amount.toFixed(2);
-  return `${currencySymbol}${formattedAmount}/${suffix}`;
+  return `${currencySymbol}${amount}/${suffix}`;
 }
