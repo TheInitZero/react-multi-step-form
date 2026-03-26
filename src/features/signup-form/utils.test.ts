@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getPriceLabel, type BillingPeriod } from './utils';
+import { getPriceLabel, calculateTotalPrice, type BillingPeriod } from './utils';
 
 describe('getPriceLabel', () => {
   it('formats Monthly amounts with the default "/mo" suffix', () => {
@@ -25,5 +25,27 @@ describe('getPriceLabel', () => {
     expect(getPriceLabel({ amount: 15, billingPeriod: 'Monthly', currencySymbol: '€' })).toBe(
       '€15/mo',
     );
+  });
+});
+
+describe('calculateTotalPrice', () => {
+  it('calculates total with multiple add-ons', () => {
+    expect(calculateTotalPrice(10, [5, 3, 2])).toBe(20);
+  });
+
+  it('calculates total with one add-on', () => {
+    expect(calculateTotalPrice(10, [5])).toBe(15);
+  });
+
+  it('calculates total with no add-ons', () => {
+    expect(calculateTotalPrice(10, [])).toBe(10);
+  });
+
+  it('calculates total with zero subscription price', () => {
+    expect(calculateTotalPrice(0, [5, 3])).toBe(8);
+  });
+
+  it('handles decimal prices', () => {
+    expect(calculateTotalPrice(10.5, [2.25, 1.75])).toBe(14.5);
   });
 });

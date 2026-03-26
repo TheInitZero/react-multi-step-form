@@ -4,6 +4,7 @@ import SignupForm from './features/signup-form/signup-form';
 import YourInfo from './features/signup-form/your-info/your-info';
 import SelectPlan from './features/signup-form/select-plan/select-plan';
 import AddOns from './features/signup-form/add-ons/add-ons';
+import Summary from './features/signup-form/summary/summary';
 
 export default function App() {
   return (
@@ -27,6 +28,14 @@ export default function App() {
           <YourInfo />
           <SelectPlan />
           <AddOns />
+          <Summary
+            subscription={{ name: 'Arcade', billingPeriod: 'Yearly', price: 90 }}
+            addOns={[
+              { name: 'Online service', price: 10 },
+              { name: 'Larger storage', price: 20 },
+            ]}
+            onSubscriptionChange={() => {}}
+          />
         </SignupForm>
       </main>
     </div>

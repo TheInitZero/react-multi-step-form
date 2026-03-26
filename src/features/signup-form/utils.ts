@@ -19,3 +19,7 @@ export function getPriceLabel({
   const suffix = suffixes[billingPeriod];
   return `${currencySymbol}${amount}/${suffix}`;
 }
+
+export function calculateTotalPrice(subscriptionPrice: number, addOnsPrices: number[]): number {
+  return subscriptionPrice + addOnsPrices.reduce((total, addOnPrice) => total + addOnPrice, 0);
+}
