@@ -5,6 +5,7 @@ import YourInfo from './features/signup-form/your-info/your-info';
 import SelectPlan from './features/signup-form/select-plan/select-plan';
 import AddOns from './features/signup-form/add-ons/add-ons';
 import Summary from './features/signup-form/summary/summary';
+import ConfirmationMessage from './features/confirmation/confirmation-message';
 
 export default function App() {
   return (
@@ -37,6 +38,8 @@ export default function App() {
             onSubscriptionChange={() => {}}
           />
         </SignupForm>
+
+        <ConfirmationMessage />
       </main>
     </div>
   );
