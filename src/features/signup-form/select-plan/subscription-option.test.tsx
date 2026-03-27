@@ -1,12 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { useState, type ComponentProps } from 'react';
+import { useState } from 'react';
 import { describe, expect, it, vi } from 'vitest';
-import SubscriptionOption from './subscription-option';
+import SubscriptionOption, { type SubscriptionOptionProps } from './subscription-option';
 
 type Plan = 'arcade' | 'advanced' | 'pro';
-
-type SubscriptionOptionProps = ComponentProps<typeof SubscriptionOption>;
 
 const defaultProps = {
   value: 'arcade',

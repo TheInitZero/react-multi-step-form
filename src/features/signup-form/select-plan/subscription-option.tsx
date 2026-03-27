@@ -1,7 +1,7 @@
 import { getPriceLabel, type BillingPeriod } from '../utils';
 import { useId } from 'react';
 
-type Props = {
+export type SubscriptionOptionProps = {
   value: string;
   required?: boolean;
   checked?: boolean;
@@ -19,7 +19,7 @@ export default function SubscriptionOption({
   onChange,
   labelText,
   description,
-}: Props) {
+}: SubscriptionOptionProps) {
   const inputId = useId();
 
   return (
