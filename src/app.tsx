@@ -232,6 +232,16 @@ export default function App() {
               { name: 'Larger storage', price: 20 },
             ]}
             onSubscriptionChange={() => {}}
+            footer={
+              <div className="flex items-center justify-between">
+                <button type="button" className="btn-ghost">
+                  Go Back
+                </button>
+                <button type="submit" className="btn-primary">
+                  Confirm
+                </button>
+              </div>
+            }
           />
         </SignupForm>
 
