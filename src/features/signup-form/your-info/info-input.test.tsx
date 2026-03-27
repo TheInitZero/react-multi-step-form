@@ -1,11 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { useState, type ComponentProps } from 'react';
+import { useState } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { none, some } from '../../../utils';
-import InfoInput from './info-input';
-
-type InfoInputProps = ComponentProps<typeof InfoInput>;
+import InfoInput, { type InfoInputProps } from './info-input';
 
 const defaultProps = {
   labelText: 'Full name',
