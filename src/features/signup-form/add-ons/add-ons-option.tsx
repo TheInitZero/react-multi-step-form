@@ -1,7 +1,7 @@
 import { getPriceLabel, type BillingPeriod } from '../utils';
 import { useId } from 'react';
 
-type Props = {
+export type AddOnsOptionProps = {
   value: string;
   checked?: boolean;
   onChange: (value: string) => void;
@@ -17,7 +17,7 @@ export default function AddOnsOption({
   labelText,
   description,
   price,
-}: Props) {
+}: AddOnsOptionProps) {
   const inputId = useId();
 
   return (
