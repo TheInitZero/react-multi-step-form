@@ -15,7 +15,7 @@ type InputType =
       autoComplete: 'tel';
     };
 
-type Props = {
+export type InfoInputProps = {
   labelText: string;
   name: string;
   placeholder: string;
@@ -35,7 +35,7 @@ export default function InfoInput({
   value,
   onInput,
   validationStatus,
-}: Props) {
+}: InfoInputProps) {
   const inputId = useId();
 
   return (
