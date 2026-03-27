@@ -1,6 +1,6 @@
 import { useId } from 'react';
 
-type Props = {
+export type BillingOptionProps = {
   value: string;
   required?: boolean;
   checked?: boolean;
@@ -14,7 +14,7 @@ export default function BillingOption({
   checked = false,
   onChange,
   labelText,
-}: Props) {
+}: BillingOptionProps) {
   const inputId = useId();
 
   return (
