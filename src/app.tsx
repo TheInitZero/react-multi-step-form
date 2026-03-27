@@ -12,6 +12,8 @@ import type { BillingOptionProps } from './features/signup-form/select-plan/bill
 import BillingOption from './features/signup-form/select-plan/billing-option';
 import type { SubscriptionOptionProps } from './features/signup-form/select-plan/subscription-option';
 import SubscriptionOption from './features/signup-form/select-plan/subscription-option';
+import type { AddOnsOptionProps } from './features/signup-form/add-ons/add-ons-option';
+import AddOnsOption from './features/signup-form/add-ons/add-ons-option';
 
 export default function App() {
   const infoInputConfigs: InfoInputProps[] = [
@@ -108,6 +110,35 @@ export default function App() {
     },
   ];
 
+  const addOnsOptionConfigs: AddOnsOptionProps[] = [
+    {
+      value: 'online-service',
+      checked: false,
+      onChange: () => {},
+      labelText: 'Online service',
+      description: 'Access to multiplayer games',
+      price: { billingPeriod: 'Monthly', amount: 1 },
+    },
+
+    {
+      value: 'larger-storage',
+      checked: false,
+      onChange: () => {},
+      labelText: 'Larger storage',
+      description: 'Extra 1TB of cloud save',
+      price: { billingPeriod: 'Monthly', amount: 2 },
+    },
+
+    {
+      value: 'customizable-profile',
+      checked: false,
+      onChange: () => {},
+      labelText: 'Customizable Profile',
+      description: 'Custom theme on your profile',
+      price: { billingPeriod: 'Monthly', amount: 2 },
+    },
+  ];
+
   return (
     <div className="grid min-h-dvh place-content-center gap-4 p-2">
       <header>
@@ -173,7 +204,26 @@ export default function App() {
             }
           />
 
-          <AddOns />
+          <AddOns
+            options={
+              <>
+                {addOnsOptionConfigs.map(function (config) {
+                  const key = `add-ons-${config.value}`;
+                  return <AddOnsOption key={key} {...config} />;
+                })}
+              </>
+            }
+            footer={
+              <div className="flex items-center justify-between">
+                <button type="button" className="btn-ghost">
+                  Go Back
+                </button>
+                <button type="button" className="btn-primary">
+                  Next Step
+                </button>
+              </div>
+            }
+          />
 
           <Summary
             subscription={{ name: 'Arcade', billingPeriod: 'Yearly', price: 90 }}
