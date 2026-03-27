@@ -1,10 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { useState, type ComponentProps } from 'react';
+import { useState } from 'react';
 import { describe, expect, it, vi } from 'vitest';
-import AddOnsOption from './add-ons-option';
-
-type AddOnsOptionProps = ComponentProps<typeof AddOnsOption>;
+import AddOnsOption, { type AddOnsOptionProps } from './add-ons-option';
 
 const defaultProps = {
   value: 'online-service',
