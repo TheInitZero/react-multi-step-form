@@ -1,12 +1,19 @@
+import type { ReactNode } from 'react';
 import { calculateTotalPrice, getPriceLabel, type BillingPeriod } from '../utils';
 
-type Props = {
+export type SummaryProps = {
   subscription: { name: string; billingPeriod: BillingPeriod; price: number };
   addOns: { name: string; price: number }[];
   onSubscriptionChange: () => void;
+  footer: ReactNode;
 };
 
-export default function Summary({ subscription, addOns, onSubscriptionChange }: Props) {
+export default function Summary({
+  subscription,
+  addOns,
+  onSubscriptionChange,
+  footer,
+}: SummaryProps) {
   const addOnsList = addOns.map((addOn) => (
     <li className="flex items-center justify-between">
       <span className="text-black/45">{addOn.name}</span>
@@ -62,14 +69,7 @@ export default function Summary({ subscription, addOns, onSubscriptionChange }: 
         </p>
       </div>
 
-      <div className="flex items-center justify-between">
-        <button type="button" className="btn-ghost">
-          Go Back
-        </button>
-        <button type="submit" className="btn-primary">
-          Confirm
-        </button>
-      </div>
+      {footer}
     </section>
   );
 }

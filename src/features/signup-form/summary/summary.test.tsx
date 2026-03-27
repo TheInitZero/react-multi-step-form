@@ -1,10 +1,7 @@
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
-import type { ComponentProps } from 'react';
-import Summary from './summary';
-
-type SummaryProps = ComponentProps<typeof Summary>;
+import Summary, { type SummaryProps } from './summary';
 
 const defaultProps: SummaryProps = {
   subscription: {
@@ -17,6 +14,7 @@ const defaultProps: SummaryProps = {
     { name: 'Larger storage', price: 3 },
   ],
   onSubscriptionChange: vi.fn(),
+  footer: <div>Test footer content</div>,
 };
 
 function renderSummary(overrides: Partial<SummaryProps> = {}) {
@@ -164,22 +162,18 @@ describe('Summary', () => {
       expect(screen.getByRole('list', { name: /add-ons/i })).toBeInTheDocument();
     });
 
-    it('renders action buttons with accessible names', () => {
-      renderSummary();
+    it('renders footer content when provided', () => {
+      renderSummary({
+        footer: (
+          <div>
+            <button>Go Back</button>
+            <button>Confirm</button>
+          </div>
+        ),
+      });
 
-      const actionsContainer = screen.getByRole('button', { name: /confirm/i }).closest('div');
-
-      expect(
-        within(actionsContainer!).getByRole('button', {
-          name: /go back/i,
-        }),
-      ).toBeInTheDocument();
-
-      expect(
-        within(actionsContainer!).getByRole('button', {
-          name: /confirm/i,
-        }),
-      ).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /go back/i })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /confirm/i })).toBeInTheDocument();
     });
   });
 });
