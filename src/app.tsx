@@ -1,5 +1,5 @@
 import SignupProgress from './features/signup-progress/signup-progress';
-import ProgressStep from './features/signup-progress/progress-step';
+import ProgressStep, { type ProgressStepProps } from './features/signup-progress/progress-step';
 import SignupForm from './features/signup-form/signup-form';
 import YourInfo from './features/signup-form/your-info/your-info';
 import SelectPlan from './features/signup-form/select-plan/select-plan';
@@ -16,6 +16,13 @@ import type { AddOnsOptionProps } from './features/signup-form/add-ons/add-ons-o
 import AddOnsOption from './features/signup-form/add-ons/add-ons-option';
 
 export default function App() {
+  const progressStepConfigs: ProgressStepProps[] = [
+    { title: 'Your info', status: { kind: 'Completed', description: 'Completed' } },
+    { title: 'Select plan', status: { kind: 'Started', description: 'Started' } },
+    { title: 'Add-ons', status: { kind: 'NotStarted', description: 'Not started' } },
+    { title: 'Summary', status: { kind: 'NotStarted', description: 'Not started' } },
+  ];
+
   const infoInputConfigs: InfoInputProps[] = [
     {
       labelText: 'Name',
@@ -146,13 +153,9 @@ export default function App() {
       </header>
 
       <SignupProgress>
-        <ProgressStep status={{ kind: 'Completed', description: 'Completed' }} title="Your info" />
-        <ProgressStep
-          status={{ kind: 'Started', description: 'Current step' }}
-          title="Select plan"
-        />
-        <ProgressStep status={{ kind: 'NotStarted', description: 'Not started' }} title="Add-ons" />
-        <ProgressStep status={{ kind: 'NotStarted', description: 'Not started' }} title="Summary" />
+        {progressStepConfigs.map(function (config) {
+          return <ProgressStep key={config.title} {...config} />;
+        })}
       </SignupProgress>
 
       <main>
