@@ -23,7 +23,7 @@
     @apply border-dotted border-yellow-400 bg-yellow-600;
   }
 
-  [data-progress-step='Current']::before {
+  [data-progress-step='Started']::before {
     @apply border-cyan-400 bg-cyan-600;
   }
 

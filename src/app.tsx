@@ -148,7 +148,7 @@ export default function App() {
       <SignupProgress>
         <ProgressStep status={{ kind: 'Completed', description: 'Completed' }} title="Your info" />
         <ProgressStep
-          status={{ kind: 'Current', description: 'Current step' }}
+          status={{ kind: 'Started', description: 'Current step' }}
           title="Select plan"
         />
         <ProgressStep status={{ kind: 'NotStarted', description: 'Not started' }} title="Add-ons" />

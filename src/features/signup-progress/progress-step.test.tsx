@@ -20,20 +20,20 @@ describe('ProgressStep', () => {
     expect(step).toHaveAccessibleDescription('Step not started yet');
   });
 
-  it('marks the current step using aria-current', () => {
+  it('marks the started step using aria-current', () => {
     render(
       <ProgressStep
-        title="Current step"
-        status={{ kind: 'Current', description: 'Current description' }}
+        title="Started step"
+        status={{ kind: 'Started', description: 'Started description' }}
       />,
     );
 
-    const currentStep = screen.getByRole('listitem', {
-      name: /current step/i,
+    const startedStep = screen.getByRole('listitem', {
+      name: /started step/i,
       current: 'step',
     });
 
-    expect(currentStep).toBeInTheDocument();
+    expect(startedStep).toBeInTheDocument();
   });
 
   it('does not mark non-current steps as current', () => {
@@ -60,7 +60,7 @@ describe('ProgressStep', () => {
     expect(step).not.toHaveAttribute('aria-current');
 
     rerender(
-      <ProgressStep title="Step" status={{ kind: 'Current', description: 'Now current' }} />,
+      <ProgressStep title="Step" status={{ kind: 'Started', description: 'Now started' }} />,
     );
 
     step = screen.getByRole('listitem', {

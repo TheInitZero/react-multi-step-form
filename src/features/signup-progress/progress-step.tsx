@@ -4,7 +4,7 @@ import clsx from 'clsx';
 type Props = {
   title: string;
   status: {
-    kind: 'NotStarted' | 'Current' | 'Completed';
+    kind: 'NotStarted' | 'Started' | 'Completed';
     description: string;
   };
 };
@@ -15,7 +15,7 @@ export default function ProgressStep({ title, status }: Props) {
 
   return (
     <li
-      aria-current={status.kind === 'Current' ? 'step' : undefined}
+      aria-current={status.kind === 'Started' ? 'step' : undefined}
       aria-labelledby={titleId}
       aria-describedby={descId}
       data-progress-step={status.kind}
@@ -23,7 +23,7 @@ export default function ProgressStep({ title, status }: Props) {
     >
       <p
         id={titleId}
-        className={clsx('sr-only sm:not-sr-only', status.kind != 'Current' && 'sm:text-black/45')}
+        className={clsx('sr-only sm:not-sr-only', status.kind !== 'Started' && 'sm:text-black/45')}
       >
         {title}
       </p>
