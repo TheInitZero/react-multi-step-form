@@ -1,7 +1,7 @@
 import { useId } from 'react';
 import clsx from 'clsx';
 
-type Props = {
+export type ProgressStepProps = {
   title: string;
   status: {
     kind: 'NotStarted' | 'Started' | 'Completed';
@@ -9,7 +9,7 @@ type Props = {
   };
 };
 
-export default function ProgressStep({ title, status }: Props) {
+export default function ProgressStep({ title, status }: ProgressStepProps) {
   const titleId = useId();
   const descId = useId();
 
