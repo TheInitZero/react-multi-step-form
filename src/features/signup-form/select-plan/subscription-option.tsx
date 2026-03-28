@@ -45,7 +45,11 @@ export default function SubscriptionOption({
         </p>
 
         {description.billingPeriod == 'Yearly' &&
-          description.bonuses.map((bonus) => <p className="text-black/45">{bonus}</p>)}
+          description.bonuses.map((bonus) => (
+            <p key={bonus} className="text-black/45">
+              {bonus}
+            </p>
+          ))}
       </div>
     </div>
   );

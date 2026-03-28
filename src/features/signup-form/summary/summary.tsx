@@ -15,7 +15,7 @@ export default function Summary({
   footer,
 }: SummaryProps) {
   const addOnsList = addOns.map((addOn) => (
-    <li className="flex items-center justify-between">
+    <li key={addOn.name} className="flex items-center justify-between">
       <span className="text-black/45">{addOn.name}</span>
       <span>
         +{getPriceLabel({ amount: addOn.price, billingPeriod: subscription.billingPeriod })}
