@@ -1,5 +1,4 @@
 import { assign, setup } from 'xstate';
-import { none, some, type Maybe } from '../../utils';
 
 type FormStep = { id: string; title: string };
 
@@ -7,18 +6,12 @@ type FormStepStatus = 'Completed' | 'Started' | 'NotStarted';
 
 type StatusRecord = Record<FormStep['id'], FormStepStatus>;
 
-type SideEffect = {
-  kind: 'FocusTitle';
-  titleEl: HTMLHeadingElement | HTMLLegendElement;
-};
-
 type Context = {
   statusRecord: StatusRecord;
-  maybeSideEffect: Maybe<SideEffect>;
 };
 
 type Events =
-  | { type: 'YOUR_INFO.NEXT'; titleElToFocus: SideEffect['titleEl']; isInfoValid: boolean }
+  | { type: 'YOUR_INFO.NEXT'; isInfoValid: boolean }
   | {
       type:
         | 'SELECT_PLAN.BACK'
@@ -28,7 +21,6 @@ type Events =
         | 'SUMMARY.CHANGE_SUBSCRIPTION'
         | 'SUMMARY.BACK'
         | 'SUMMARY.NEXT';
-      titleElToFocus: SideEffect['titleEl'];
     };
 
 export const formProgressMachine = setup({
@@ -46,12 +38,6 @@ export const formProgressMachine = setup({
         };
       },
     }),
-
-    updateSideEffext: assign({
-      maybeSideEffect: (_, params: Maybe<SideEffect>) => {
-        return params;
-      },
-    }),
   },
 }).createMachine({
   id: 'form-progress-machine',
@@ -63,8 +49,6 @@ export const formProgressMachine = setup({
       'add-ons': 'NotStarted',
       summary: 'NotStarted',
     },
-
-    maybeSideEffect: none(),
   },
 
   initial: 'yourInfo',
@@ -79,10 +63,6 @@ export const formProgressMachine = setup({
               type: 'updateStatusRecord',
               params: { 'your-info': 'Completed', 'select-plan': 'Started' },
             },
-            {
-              type: 'updateSideEffext',
-              params: ({ event }) => some({ kind: 'FocusTitle', titleEl: event.titleElToFocus }),
-            },
           ],
         },
       },
@@ -92,10 +72,6 @@ export const formProgressMachine = setup({
       on: {
         'SELECT_PLAN.BACK': {
           target: 'yourInfo',
-          actions: {
-            type: 'updateSideEffext',
-            params: ({ event }) => some({ kind: 'FocusTitle', titleEl: event.titleElToFocus }),
-          },
         },
 
         'SELECT_PLAN.NEXT': {
@@ -104,10 +80,6 @@ export const formProgressMachine = setup({
             {
               type: 'updateStatusRecord',
               params: { 'select-plan': 'Completed', 'add-ons': 'Started' },
-            },
-            {
-              type: 'updateSideEffext',
-              params: ({ event }) => some({ kind: 'FocusTitle', titleEl: event.titleElToFocus }),
             },
           ],
         },
@@ -118,10 +90,6 @@ export const formProgressMachine = setup({
       on: {
         'ADD_ONS.BACK': {
           target: 'selectPlan',
-          actions: {
-            type: 'updateSideEffext',
-            params: ({ event }) => some({ kind: 'FocusTitle', titleEl: event.titleElToFocus }),
-          },
         },
 
         'ADD_ONS.NEXT': {
@@ -130,10 +98,6 @@ export const formProgressMachine = setup({
             {
               type: 'updateStatusRecord',
               params: { 'add-ons': 'Completed', summary: 'Started' },
-            },
-            {
-              type: 'updateSideEffext',
-              params: ({ event }) => some({ kind: 'FocusTitle', titleEl: event.titleElToFocus }),
             },
           ],
         },
@@ -144,18 +108,10 @@ export const formProgressMachine = setup({
       on: {
         'SUMMARY.CHANGE_SUBSCRIPTION': {
           target: 'selectPlan',
-          actions: {
-            type: 'updateSideEffext',
-            params: ({ event }) => some({ kind: 'FocusTitle', titleEl: event.titleElToFocus }),
-          },
         },
 
         'SUMMARY.BACK': {
           target: 'addOns',
-          actions: {
-            type: 'updateSideEffext',
-            params: ({ event }) => some({ kind: 'FocusTitle', titleEl: event.titleElToFocus }),
-          },
         },
 
         'SUMMARY.NEXT': {
@@ -164,10 +120,6 @@ export const formProgressMachine = setup({
             {
               type: 'updateStatusRecord',
               params: { summary: 'Completed' },
-            },
-            {
-              type: 'updateSideEffext',
-              params: ({ event }) => some({ kind: 'FocusTitle', titleEl: event.titleElToFocus }),
             },
           ],
         },
