@@ -15,7 +15,11 @@ import SubscriptionOption from './features/signup-form/select-plan/subscription-
 import type { AddOnsOptionProps } from './features/signup-form/add-ons/add-ons-option';
 import AddOnsOption from './features/signup-form/add-ons/add-ons-option';
 import { useMachine } from '@xstate/react';
-import { formProgressMachine, formSteps } from './features/state/form-progress-state';
+import {
+  formProgressMachine,
+  formSteps,
+  formStepStatusDescriptions,
+} from './features/state/form-progress-state';
 
 export default function App() {
   const [snapshot, send] = useMachine(formProgressMachine);
@@ -25,7 +29,7 @@ export default function App() {
   ).map(function ([stepId, stepStatus]) {
     return {
       title: formSteps[stepId].title,
-      status: { kind: stepStatus, description: 'sample description' },
+      status: { kind: stepStatus, description: formStepStatusDescriptions[stepStatus] },
     };
   });
 

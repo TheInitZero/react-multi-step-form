@@ -30,6 +30,12 @@ export const formSteps: Record<FormStep['id'], FormStep> = {
   summary: { id: 'summary', title: 'Summary' },
 };
 
+export const formStepStatusDescriptions: Record<FormStepStatus, string> = {
+  Completed: 'Completed',
+  NotStarted: 'Not started',
+  Started: 'Started',
+};
+
 export const formProgressMachine = setup({
   types: {
     context: {} as Context,
