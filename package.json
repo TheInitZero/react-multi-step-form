@@ -16,13 +16,15 @@
   "dependencies": {
     "@fontsource/ubuntu": "^5.2.8",
     "@tailwindcss/vite": "^4.2.2",
+    "@xstate/react": "^6.1.0",
     "clsx": "^2.1.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
     "prettier": "^3.8.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "tailwindcss": "^4.2.2"
+    "tailwindcss": "^4.2.2",
+    "xstate": "^5.30.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
