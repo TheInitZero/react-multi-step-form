@@ -51,7 +51,7 @@ export const formProgressMachine = setup({
 
   context: {
     statusRecord: {
-      'your-info': 'NotStarted',
+      'your-info': 'Started',
       'select-plan': 'NotStarted',
       'add-ons': 'NotStarted',
       summary: 'NotStarted',
