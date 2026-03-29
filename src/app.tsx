@@ -14,8 +14,12 @@ import type { SubscriptionOptionProps } from './features/signup-form/select-plan
 import SubscriptionOption from './features/signup-form/select-plan/subscription-option';
 import type { AddOnsOptionProps } from './features/signup-form/add-ons/add-ons-option';
 import AddOnsOption from './features/signup-form/add-ons/add-ons-option';
+import { useMachine } from '@xstate/react';
+import { formProgressMachine } from './features/state/form-progress-state';
 
 export default function App() {
+  const [snapshot, send] = useMachine(formProgressMachine);
+
   const progressStepConfigs: ProgressStepProps[] = [
     { title: 'Your info', status: { kind: 'Completed', description: 'Completed' } },
     { title: 'Select plan', status: { kind: 'Started', description: 'Started' } },
@@ -159,96 +163,134 @@ export default function App() {
       </SignupProgress>
 
       <main>
-        <SignupForm>
-          <YourInfo
-            inputs={
-              <>
-                {infoInputConfigs.map(function (config) {
-                  const key = `input-${config.name}`;
-                  return <InfoInput key={key} {...config} />;
-                })}
-              </>
-            }
-            footer={
-              <div className="flex items-center justify-end">
-                <button type="button" className="btn-primary">
-                  Next Step
-                </button>
-              </div>
-            }
-          />
+        {snapshot.hasTag('confirmation') ? (
+          <ConfirmationMessage />
+        ) : (
+          <SignupForm>
+            {snapshot.hasTag('yourInfo') && (
+              <YourInfo
+                inputs={
+                  <>
+                    {infoInputConfigs.map(function (config) {
+                      const key = `input-${config.name}`;
+                      return <InfoInput key={key} {...config} />;
+                    })}
+                  </>
+                }
+                footer={
+                  <div className="flex items-center justify-end">
+                    <button
+                      type="button"
+                      className="btn-primary"
+                      onClick={() => send({ type: 'YOUR_INFO.NEXT', isInfoValid: true })}
+                    >
+                      Next Step
+                    </button>
+                  </div>
+                }
+              />
+            )}
 
-          <SelectPlan
-            billingOptions={
-              <>
-                {billingOptionConfigs.map(function (config) {
-                  const key = `billing-${config.value}`;
-                  return <BillingOption key={key} {...config} />;
-                })}
-              </>
-            }
-            subscriptionOptions={
-              <>
-                {subscriptionOptionConfigs.map(function (config) {
-                  const key = `subscription-${config.value}`;
-                  return <SubscriptionOption key={key} {...config} />;
-                })}
-              </>
-            }
-            footer={
-              <div className="flex items-center justify-between">
-                <button type="button" className="btn-ghost">
-                  Go Back
-                </button>
-                <button type="button" className="btn-primary">
-                  Next Step
-                </button>
-              </div>
-            }
-          />
+            {snapshot.hasTag('selectPlan') && (
+              <SelectPlan
+                billingOptions={
+                  <>
+                    {billingOptionConfigs.map(function (config) {
+                      const key = `billing-${config.value}`;
+                      return <BillingOption key={key} {...config} />;
+                    })}
+                  </>
+                }
+                subscriptionOptions={
+                  <>
+                    {subscriptionOptionConfigs.map(function (config) {
+                      const key = `subscription-${config.value}`;
+                      return <SubscriptionOption key={key} {...config} />;
+                    })}
+                  </>
+                }
+                footer={
+                  <div className="flex items-center justify-between">
+                    <button
+                      type="button"
+                      className="btn-ghost"
+                      onClick={() => send({ type: 'SELECT_PLAN.BACK' })}
+                    >
+                      Go Back
+                    </button>
+                    <button
+                      type="button"
+                      className="btn-primary"
+                      onClick={() => send({ type: 'SELECT_PLAN.NEXT' })}
+                    >
+                      Next Step
+                    </button>
+                  </div>
+                }
+              />
+            )}
 
-          <AddOns
-            options={
-              <>
-                {addOnsOptionConfigs.map(function (config) {
-                  const key = `add-ons-${config.value}`;
-                  return <AddOnsOption key={key} {...config} />;
-                })}
-              </>
-            }
-            footer={
-              <div className="flex items-center justify-between">
-                <button type="button" className="btn-ghost">
-                  Go Back
-                </button>
-                <button type="button" className="btn-primary">
-                  Next Step
-                </button>
-              </div>
-            }
-          />
+            {snapshot.hasTag('addOns') && (
+              <AddOns
+                options={
+                  <>
+                    {addOnsOptionConfigs.map(function (config) {
+                      const key = `add-ons-${config.value}`;
+                      return <AddOnsOption key={key} {...config} />;
+                    })}
+                  </>
+                }
+                footer={
+                  <div className="flex items-center justify-between">
+                    <button
+                      type="button"
+                      className="btn-ghost"
+                      onClick={() => send({ type: 'ADD_ONS.BACK' })}
+                    >
+                      Go Back
+                    </button>
+                    <button
+                      type="button"
+                      className="btn-primary"
+                      onClick={() => send({ type: 'ADD_ONS.NEXT' })}
+                    >
+                      Next Step
+                    </button>
+                  </div>
+                }
+              />
+            )}
 
-          <Summary
-            subscription={{ name: 'Arcade', billingPeriod: 'Yearly', price: 90 }}
-            addOns={[
-              { name: 'Online service', price: 10 },
-              { name: 'Larger storage', price: 20 },
-            ]}
-            onSubscriptionChange={() => {}}
-            footer={
-              <div className="flex items-center justify-between">
-                <button type="button" className="btn-ghost">
-                  Go Back
-                </button>
-                <button type="submit" className="btn-primary">
-                  Confirm
-                </button>
-              </div>
-            }
-          />
-        </SignupForm>
-
-        <ConfirmationMessage />
+            {snapshot.hasTag('summary') && (
+              <Summary
+                subscription={{ name: 'Arcade', billingPeriod: 'Yearly', price: 90 }}
+                addOns={[
+                  { name: 'Online service', price: 10 },
+                  { name: 'Larger storage', price: 20 },
+                ]}
+                onSubscriptionChange={() => send({ type: 'SUMMARY.CHANGE_SUBSCRIPTION' })}
+                footer={
+                  <div className="flex items-center justify-between">
+                    <button
+                      type="button"
+                      className="btn-ghost"
+                      onClick={() => send({ type: 'SUMMARY.BACK' })}
+                    >
+                      Go Back
+                    </button>
+                    <button
+                      type="submit"
+                      className="btn-primary"
+                      onClick={() => send({ type: 'SUMMARY.NEXT' })}
+                    >
+                      Confirm
+                    </button>
+                  </div>
+                }
+              />
+            )}
+          </SignupForm>
+        )}
       </main>
     </div>
   );

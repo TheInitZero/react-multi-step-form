@@ -55,6 +55,8 @@ export const formProgressMachine = setup({
 
   states: {
     yourInfo: {
+      tags: ['yourInfo'],
+
       on: {
         'YOUR_INFO.NEXT': {
           target: 'selectPlan',
@@ -69,6 +71,8 @@ export const formProgressMachine = setup({
     },
 
     selectPlan: {
+      tags: ['selectPlan'],
+
       on: {
         'SELECT_PLAN.BACK': {
           target: 'yourInfo',
@@ -87,6 +91,8 @@ export const formProgressMachine = setup({
     },
 
     addOns: {
+      tags: ['addOns'],
+
       on: {
         'ADD_ONS.BACK': {
           target: 'selectPlan',
@@ -105,6 +111,8 @@ export const formProgressMachine = setup({
     },
 
     summary: {
+      tags: ['summary'],
+
       on: {
         'SUMMARY.CHANGE_SUBSCRIPTION': {
           target: 'selectPlan',
@@ -126,6 +134,6 @@ export const formProgressMachine = setup({
       },
     },
 
-    confirmation: { type: 'final' },
+    confirmation: { tags: ['confirmation'], type: 'final' },
   },
 });
