@@ -73,6 +73,7 @@ export const formProgressMachine = setup({
               params: { 'your-info': 'Completed', 'select-plan': 'Started' },
             },
           ],
+          guard: ({ event }) => event.isInfoValid,
         },
       },
     },
