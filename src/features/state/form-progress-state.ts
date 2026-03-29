@@ -23,6 +23,13 @@ type Events =
         | 'SUMMARY.NEXT';
     };
 
+export const formSteps: Record<FormStep['id'], FormStep> = {
+  'your-info': { id: 'your-info', title: 'Your info' },
+  'select-plan': { id: 'select-plan', title: 'Select plan' },
+  'add-ons': { id: 'add-ons', title: 'Add-ons' },
+  summary: { id: 'summary', title: 'Summary' },
+};
+
 export const formProgressMachine = setup({
   types: {
     context: {} as Context,
