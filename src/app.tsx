@@ -15,17 +15,19 @@ import SubscriptionOption from './features/signup-form/select-plan/subscription-
 import type { AddOnsOptionProps } from './features/signup-form/add-ons/add-ons-option';
 import AddOnsOption from './features/signup-form/add-ons/add-ons-option';
 import { useMachine } from '@xstate/react';
-import { formProgressMachine } from './features/state/form-progress-state';
+import { formProgressMachine, formSteps } from './features/state/form-progress-state';
 
 export default function App() {
   const [snapshot, send] = useMachine(formProgressMachine);
 
-  const progressStepConfigs: ProgressStepProps[] = [
-    { title: 'Your info', status: { kind: 'Completed', description: 'Completed' } },
-    { title: 'Select plan', status: { kind: 'Started', description: 'Started' } },
-    { title: 'Add-ons', status: { kind: 'NotStarted', description: 'Not started' } },
-    { title: 'Summary', status: { kind: 'NotStarted', description: 'Not started' } },
-  ];
+  const progressStepConfigs: ProgressStepProps[] = Object.entries(
+    snapshot.context.statusRecord,
+  ).map(function ([stepId, stepStatus]) {
+    return {
+      title: formSteps[stepId].title,
+      status: { kind: stepStatus, description: 'sample description' },
+    };
+  });
 
   const infoInputConfigs: InfoInputProps[] = [
     {
