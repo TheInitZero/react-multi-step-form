@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { useTitleFocus } from '../../hooks/use-title-focus';
 
 type SelectPlanProps = {
   billingOptions: ReactNode;
@@ -11,10 +12,14 @@ export default function SelectPlan({
   subscriptionOptions,
   footer,
 }: SelectPlanProps) {
+  const titleRefCallback = useTitleFocus<HTMLLegendElement>();
+
   return (
     <fieldset className="space-y-4">
       <div className="space-y-2">
-        <legend className="text-xl">Select your plan</legend>
+        <legend tabIndex={-1} className="text-xl outline-none" ref={titleRefCallback}>
+          Select your plan
+        </legend>
         <p className="text-black/45">You have the option of monthly or yearly billing.</p>
       </div>
 

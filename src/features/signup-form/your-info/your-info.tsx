@@ -1,4 +1,5 @@
-import type { ReactNode } from 'react';
+import { type ReactNode } from 'react';
+import { useTitleFocus } from '../../hooks/use-title-focus';
 
 type YourInfoProps = {
   inputs: ReactNode;
@@ -6,10 +7,14 @@ type YourInfoProps = {
 };
 
 export default function YourInfo({ inputs, footer }: YourInfoProps) {
+  const titleRefCallback = useTitleFocus<HTMLLegendElement>();
+
   return (
     <fieldset className="space-y-4">
       <div className="space-y-2">
-        <legend className="text-xl">Personal info</legend>
+        <legend tabIndex={-1} className="text-xl outline-none" ref={titleRefCallback}>
+          Personal info
+        </legend>
         <p className="text-black/45">Please provide your name, email address, and phone number.</p>
       </div>
 
