@@ -14,18 +14,14 @@ import type { SubscriptionOptionProps } from './features/signup-form/select-plan
 import SubscriptionOption from './features/signup-form/select-plan/subscription-option';
 import type { AddOnsOptionProps } from './features/signup-form/add-ons/add-ons-option';
 import AddOnsOption from './features/signup-form/add-ons/add-ons-option';
-import { useMachine } from '@xstate/react';
-import {
-  formProgressMachine,
-  formSteps,
-  formStepStatusDescriptions,
-} from './features/state/form-progress-state';
+import { formSteps, formStepStatusDescriptions } from './features/state/form-progress-state';
+import { useFormProgressMachine } from './features/hooks/use-form-progress-machine';
 
 export default function App() {
-  const [snapshot, send] = useMachine(formProgressMachine);
+  const formProgressActor = useFormProgressMachine();
 
   const progressStepConfigs: ProgressStepProps[] = Object.entries(
-    snapshot.context.statusRecord,
+    formProgressActor.snapshot.context.statusRecord,
   ).map(function ([stepId, stepStatus]) {
     return {
       title: formSteps[stepId].title,
@@ -169,11 +165,11 @@ export default function App() {
       </SignupProgress>
 
       <main>
-        {snapshot.hasTag('confirmation') ? (
+        {formProgressActor.snapshot.hasTag('confirmation') ? (
           <ConfirmationMessage />
         ) : (
           <SignupForm>
-            {snapshot.hasTag('yourInfo') && (
+            {formProgressActor.snapshot.hasTag('yourInfo') && (
               <YourInfo
                 inputs={
                   <>
@@ -188,7 +184,9 @@ export default function App() {
                     <button
                       type="button"
                       className="btn-primary"
-                      onClick={() => send({ type: 'YOUR_INFO.NEXT', isInfoValid: true })}
+                      onClick={() =>
+                        formProgressActor.send({ type: 'YOUR_INFO.NEXT', isInfoValid: true })
+                      }
                     >
                       Next Step
                     </button>
@@ -197,7 +195,7 @@ export default function App() {
               />
             )}
 
-            {snapshot.hasTag('selectPlan') && (
+            {formProgressActor.snapshot.hasTag('selectPlan') && (
               <SelectPlan
                 billingOptions={
                   <>
@@ -220,14 +218,14 @@ export default function App() {
                     <button
                       type="button"
                       className="btn-ghost"
-                      onClick={() => send({ type: 'SELECT_PLAN.BACK' })}
+                      onClick={() => formProgressActor.send({ type: 'SELECT_PLAN.BACK' })}
                     >
                       Go Back
                     </button>
                     <button
                       type="button"
                       className="btn-primary"
-                      onClick={() => send({ type: 'SELECT_PLAN.NEXT' })}
+                      onClick={() => formProgressActor.send({ type: 'SELECT_PLAN.NEXT' })}
                     >
                       Next Step
                     </button>
@@ -236,7 +234,7 @@ export default function App() {
               />
             )}
 
-            {snapshot.hasTag('addOns') && (
+            {formProgressActor.snapshot.hasTag('addOns') && (
               <AddOns
                 options={
                   <>
@@ -251,14 +249,14 @@ export default function App() {
                     <button
                       type="button"
                       className="btn-ghost"
-                      onClick={() => send({ type: 'ADD_ONS.BACK' })}
+                      onClick={() => formProgressActor.send({ type: 'ADD_ONS.BACK' })}
                     >
                       Go Back
                     </button>
                     <button
                       type="button"
                       className="btn-primary"
-                      onClick={() => send({ type: 'ADD_ONS.NEXT' })}
+                      onClick={() => formProgressActor.send({ type: 'ADD_ONS.NEXT' })}
                     >
                       Next Step
                     </button>
@@ -267,27 +265,29 @@ export default function App() {
               />
             )}
 
-            {snapshot.hasTag('summary') && (
+            {formProgressActor.snapshot.hasTag('summary') && (
               <Summary
                 subscription={{ name: 'Arcade', billingPeriod: 'Yearly', price: 90 }}
                 addOns={[
                   { name: 'Online service', price: 10 },
                   { name: 'Larger storage', price: 20 },
                 ]}
-                onSubscriptionChange={() => send({ type: 'SUMMARY.CHANGE_SUBSCRIPTION' })}
+                onSubscriptionChange={() =>
+                  formProgressActor.send({ type: 'SUMMARY.CHANGE_SUBSCRIPTION' })
+                }
                 footer={
                   <div className="flex items-center justify-between">
                     <button
                       type="button"
                       className="btn-ghost"
-                      onClick={() => send({ type: 'SUMMARY.BACK' })}
+                      onClick={() => formProgressActor.send({ type: 'SUMMARY.BACK' })}
                     >
                       Go Back
                     </button>
                     <button
                       type="submit"
                       className="btn-primary"
-                      onClick={() => send({ type: 'SUMMARY.NEXT' })}
+                      onClick={() => formProgressActor.send({ type: 'SUMMARY.NEXT' })}
                     >
                       Confirm
                     </button>
