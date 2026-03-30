@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { calculateTotalPrice, getPriceLabel, type BillingPeriod } from '../utils';
+import { useTitleFocus } from '../../hooks/use-title-focus';
 
 export type SummaryProps = {
   subscription: { name: string; billingPeriod: BillingPeriod; price: number };
@@ -14,6 +15,8 @@ export default function Summary({
   onSubscriptionChange,
   footer,
 }: SummaryProps) {
+  const titleRefCallback = useTitleFocus<HTMLHeadingElement>();
+
   const addOnsList = addOns.map((addOn) => (
     <li key={addOn.name} className="flex items-center justify-between">
       <span className="text-black/45">{addOn.name}</span>
@@ -31,7 +34,9 @@ export default function Summary({
   return (
     <section className="space-y-4">
       <div className="space-y-2">
-        <h2 className="text-xl">Finishing up</h2>
+        <h2 tabIndex={-1} className="text-xl outline-none" ref={titleRefCallback}>
+          Finishing up
+        </h2>
         <p className="text-black/45">Double-check everything looks OK before confirming.</p>
       </div>
 

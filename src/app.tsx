@@ -14,14 +14,20 @@ import type { SubscriptionOptionProps } from './features/signup-form/select-plan
 import SubscriptionOption from './features/signup-form/select-plan/subscription-option';
 import type { AddOnsOptionProps } from './features/signup-form/add-ons/add-ons-option';
 import AddOnsOption from './features/signup-form/add-ons/add-ons-option';
+import { formSteps, formStepStatusDescriptions } from './features/state/form-progress-state';
+import { useFormProgressMachine } from './features/hooks/use-form-progress-machine';
 
 export default function App() {
-  const progressStepConfigs: ProgressStepProps[] = [
-    { title: 'Your info', status: { kind: 'Completed', description: 'Completed' } },
-    { title: 'Select plan', status: { kind: 'Started', description: 'Started' } },
-    { title: 'Add-ons', status: { kind: 'NotStarted', description: 'Not started' } },
-    { title: 'Summary', status: { kind: 'NotStarted', description: 'Not started' } },
-  ];
+  const formProgressActor = useFormProgressMachine();
+
+  const progressStepConfigs: ProgressStepProps[] = Object.entries(
+    formProgressActor.snapshot.context.statusRecord,
+  ).map(function ([stepId, stepStatus]) {
+    return {
+      title: formSteps[stepId].title,
+      status: { kind: stepStatus, description: formStepStatusDescriptions[stepStatus] },
+    };
+  });
 
   const infoInputConfigs: InfoInputProps[] = [
     {
@@ -159,96 +165,138 @@ export default function App() {
       </SignupProgress>
 
       <main>
-        <SignupForm>
-          <YourInfo
-            inputs={
-              <>
-                {infoInputConfigs.map(function (config) {
-                  const key = `input-${config.name}`;
-                  return <InfoInput key={key} {...config} />;
-                })}
-              </>
-            }
-            footer={
-              <div className="flex items-center justify-end">
-                <button type="button" className="btn-primary">
-                  Next Step
-                </button>
-              </div>
-            }
-          />
+        {formProgressActor.snapshot.hasTag('confirmation') ? (
+          <ConfirmationMessage />
+        ) : (
+          <SignupForm>
+            {formProgressActor.snapshot.hasTag('yourInfo') && (
+              <YourInfo
+                inputs={
+                  <>
+                    {infoInputConfigs.map(function (config) {
+                      const key = `input-${config.name}`;
+                      return <InfoInput key={key} {...config} />;
+                    })}
+                  </>
+                }
+                footer={
+                  <div className="flex items-center justify-end">
+                    <button
+                      type="button"
+                      className="btn-primary"
+                      onClick={() =>
+                        formProgressActor.send({ type: 'YOUR_INFO.NEXT', isInfoValid: true })
+                      }
+                    >
+                      Next Step
+                    </button>
+                  </div>
+                }
+              />
+            )}
 
-          <SelectPlan
-            billingOptions={
-              <>
-                {billingOptionConfigs.map(function (config) {
-                  const key = `billing-${config.value}`;
-                  return <BillingOption key={key} {...config} />;
-                })}
-              </>
-            }
-            subscriptionOptions={
-              <>
-                {subscriptionOptionConfigs.map(function (config) {
-                  const key = `subscription-${config.value}`;
-                  return <SubscriptionOption key={key} {...config} />;
-                })}
-              </>
-            }
-            footer={
-              <div className="flex items-center justify-between">
-                <button type="button" className="btn-ghost">
-                  Go Back
-                </button>
-                <button type="button" className="btn-primary">
-                  Next Step
-                </button>
-              </div>
-            }
-          />
+            {formProgressActor.snapshot.hasTag('selectPlan') && (
+              <SelectPlan
+                billingOptions={
+                  <>
+                    {billingOptionConfigs.map(function (config) {
+                      const key = `billing-${config.value}`;
+                      return <BillingOption key={key} {...config} />;
+                    })}
+                  </>
+                }
+                subscriptionOptions={
+                  <>
+                    {subscriptionOptionConfigs.map(function (config) {
+                      const key = `subscription-${config.value}`;
+                      return <SubscriptionOption key={key} {...config} />;
+                    })}
+                  </>
+                }
+                footer={
+                  <div className="flex items-center justify-between">
+                    <button
+                      type="button"
+                      className="btn-ghost"
+                      onClick={() => formProgressActor.send({ type: 'SELECT_PLAN.BACK' })}
+                    >
+                      Go Back
+                    </button>
+                    <button
+                      type="button"
+                      className="btn-primary"
+                      onClick={() => formProgressActor.send({ type: 'SELECT_PLAN.NEXT' })}
+                    >
+                      Next Step
+                    </button>
+                  </div>
+                }
+              />
+            )}
 
-          <AddOns
-            options={
-              <>
-                {addOnsOptionConfigs.map(function (config) {
-                  const key = `add-ons-${config.value}`;
-                  return <AddOnsOption key={key} {...config} />;
-                })}
-              </>
-            }
-            footer={
-              <div className="flex items-center justify-between">
-                <button type="button" className="btn-ghost">
-                  Go Back
-                </button>
-                <button type="button" className="btn-primary">
-                  Next Step
-                </button>
-              </div>
-            }
-          />
+            {formProgressActor.snapshot.hasTag('addOns') && (
+              <AddOns
+                options={
+                  <>
+                    {addOnsOptionConfigs.map(function (config) {
+                      const key = `add-ons-${config.value}`;
+                      return <AddOnsOption key={key} {...config} />;
+                    })}
+                  </>
+                }
+                footer={
+                  <div className="flex items-center justify-between">
+                    <button
+                      type="button"
+                      className="btn-ghost"
+                      onClick={() => formProgressActor.send({ type: 'ADD_ONS.BACK' })}
+                    >
+                      Go Back
+                    </button>
+                    <button
+                      type="button"
+                      className="btn-primary"
+                      onClick={() => formProgressActor.send({ type: 'ADD_ONS.NEXT' })}
+                    >
+                      Next Step
+                    </button>
+                  </div>
+                }
+              />
+            )}
 
-          <Summary
-            subscription={{ name: 'Arcade', billingPeriod: 'Yearly', price: 90 }}
-            addOns={[
-              { name: 'Online service', price: 10 },
-              { name: 'Larger storage', price: 20 },
-            ]}
-            onSubscriptionChange={() => {}}
-            footer={
-              <div className="flex items-center justify-between">
-                <button type="button" className="btn-ghost">
-                  Go Back
-                </button>
-                <button type="submit" className="btn-primary">
-                  Confirm
-                </button>
-              </div>
-            }
-          />
-        </SignupForm>
-
-        <ConfirmationMessage />
+            {formProgressActor.snapshot.hasTag('summary') && (
+              <Summary
+                subscription={{ name: 'Arcade', billingPeriod: 'Yearly', price: 90 }}
+                addOns={[
+                  { name: 'Online service', price: 10 },
+                  { name: 'Larger storage', price: 20 },
+                ]}
+                onSubscriptionChange={() =>
+                  formProgressActor.send({ type: 'SUMMARY.CHANGE_SUBSCRIPTION' })
+                }
+                footer={
+                  <div className="flex items-center justify-between">
+                    <button
+                      type="button"
+                      className="btn-ghost"
+                      onClick={() => formProgressActor.send({ type: 'SUMMARY.BACK' })}
+                    >
+                      Go Back
+                    </button>
+                    <button
+                      type="submit"
+                      className="btn-primary"
+                      onClick={() => formProgressActor.send({ type: 'SUMMARY.NEXT' })}
+                    >
+                      Confirm
+                    </button>
+                  </div>
+                }
+              />
+            )}
+          </SignupForm>
+        )}
       </main>
     </div>
   );

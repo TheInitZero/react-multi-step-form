@@ -1,4 +1,8 @@
+import { useTitleFocus } from '../hooks/use-title-focus';
+
 export default function ConfirmationMessage() {
+  const titleRefCallback = useTitleFocus<HTMLHeadingElement>();
+
   return (
     <section
       aria-label="Subscription confirmed"
@@ -20,7 +24,9 @@ export default function ConfirmationMessage() {
         />
       </svg>
 
-      <h2 className="text-xl">Thank you!</h2>
+      <h2 tabIndex={-1} className="text-xl outline-none" ref={titleRefCallback}>
+        Thank you!
+      </h2>
 
       <p className="max-w-[60ch]">
         Thanks for confirming your subscription! We hope you have fun using our platform. If you
