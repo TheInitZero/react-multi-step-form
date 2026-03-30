@@ -8,7 +8,7 @@ export function useTitleFocus<T extends HTMLElement>() {
     if (titleRef.current.kind === 'Some') {
       titleRef.current.value.focus();
     }
-  });
+  }, []);
 
   function refCallback(node: T | null) {
     titleRef.current = nullishToMaybe(node);
