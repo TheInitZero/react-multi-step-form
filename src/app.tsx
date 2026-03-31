@@ -7,7 +7,6 @@ import AddOns from './features/signup-form/add-ons/add-ons';
 import Summary, { type SummaryProps } from './features/signup-form/summary/summary';
 import ConfirmationMessage from './features/confirmation/confirmation-message';
 import InfoInput, { type InfoInputProps } from './features/signup-form/your-info/info-input';
-import { none } from './utils';
 import type { BillingOptionProps } from './features/signup-form/select-plan/billing-option';
 import BillingOption from './features/signup-form/select-plan/billing-option';
 import type { SubscriptionOptionProps } from './features/signup-form/select-plan/subscription-option';
@@ -18,6 +17,11 @@ import { formSteps, formStepStatusDescriptions } from './features/state/form-pro
 import { useFormProgressMachine } from './features/hooks/use-form-progress-machine';
 import { useInputStateMachine } from './features/hooks/use-input-state-machine';
 import { addOns, subscriptions } from './features/state/input-state';
+import {
+  emailValidationStatus,
+  nameValidationStatus,
+  telephoneValidationStatus,
+} from './features/signup-form/your-info/utils';
 
 export default function App() {
   const formProgressActor = useFormProgressMachine();
@@ -42,7 +46,7 @@ export default function App() {
 
     const nameInputConfig: InfoInputProps = (function () {
       const inputType: InfoInputProps['inputType'] = { kind: 'text', autoComplete: 'name' };
-      const validationStatus = none();
+      const validationStatus = nameValidationStatus(name);
 
       const onInput: InfoInputProps['onInput'] = function (value) {
         inputActor.send({ type: 'SET_NAME', name: value });
@@ -62,7 +66,7 @@ export default function App() {
 
     const emailInputConfig: InfoInputProps = (function () {
       const inputType: InfoInputProps['inputType'] = { kind: 'email', autoComplete: 'email' };
-      const validationStatus = none();
+      const validationStatus = emailValidationStatus(email);
 
       const onInput: InfoInputProps['onInput'] = function (value) {
         inputActor.send({ type: 'SET_EMAIL', email: value });
@@ -82,7 +86,7 @@ export default function App() {
 
     const telephoneInputConfig: InfoInputProps = (function () {
       const inputType: InfoInputProps['inputType'] = { kind: 'tel', autoComplete: 'tel' };
-      const validationStatus = none();
+      const validationStatus = telephoneValidationStatus(telephone);
 
       const onInput: InfoInputProps['onInput'] = function (value) {
         inputActor.send({ type: 'SET_TELEPHONE', telephone: value });
@@ -92,7 +96,7 @@ export default function App() {
         value: telephone,
         labelText: 'Phone Number',
         name: 'phone',
-        placeholder: '+1 234 567 890',
+        placeholder: '+1-234-567-890',
         required: true,
         inputType,
         validationStatus,
@@ -102,6 +106,10 @@ export default function App() {
 
     return [nameInputConfig, emailInputConfig, telephoneInputConfig];
   })();
+
+  const isInfoValid = infoInputConfigs
+    .map((config) => config.validationStatus)
+    .reduce((overall, current) => overall && current.kind === 'None', true);
 
   const billingOptionConfigs: BillingOptionProps[] = (function () {
     const { billingPeriod } = inputActor.snapshot.context;
@@ -253,9 +261,10 @@ export default function App() {
                     <button
                       type="button"
                       className="btn-primary"
-                      onClick={() =>
-                        formProgressActor.send({ type: 'YOUR_INFO.NEXT', isInfoValid: true })
-                      }
+                      disabled={!isInfoValid}
+                      onClick={function () {
+                        formProgressActor.send({ type: 'YOUR_INFO.NEXT', isInfoValid });
+                      }}
                     >
                       Next Step
                     </button>
