@@ -39,6 +39,7 @@ const DATA = {
         monthly: 1,
         yearly: 10,
       },
+      detail: 'Access to multiplayer games',
     },
 
     'larger-storage': {
@@ -48,6 +49,7 @@ const DATA = {
         monthly: 2,
         yearly: 20,
       },
+      detail: 'Extra 1TB of cloud save',
     },
 
     'customizable-profile': {
@@ -57,6 +59,7 @@ const DATA = {
         monthly: 2,
         yearly: 20,
       },
+      detail: 'Custom theme on your profile',
     },
   },
 };
