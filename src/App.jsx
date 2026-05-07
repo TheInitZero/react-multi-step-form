@@ -77,6 +77,7 @@ export default function App() {
 
   let billingFrequency = 'monthly';
   let subscriptionLevel = 'arcade';
+  let addOnIds = ['online-service', 'larger-storage'];
 
   return (
     <div>
@@ -96,6 +97,12 @@ export default function App() {
           />
 
           <SignupFormStepAddOns billingFrequency={billingFrequency} />
+
+          <SignupFormStepSummary
+            billingFrequency={billingFrequency}
+            subscriptionLevel={subscriptionLevel}
+            addOnIds={addOnIds}
+          />
         </form>
       </main>
     </div>
@@ -358,4 +365,97 @@ function SignupFormStepAddOns({ billingFrequency }) {
       </div>
     </fieldset>
   );
+}
+
+function SignupFormStepSummary({
+  billingFrequency,
+  subscriptionLevel,
+  addOnIds,
+}) {
+  let priceSuffix = billingFrequency == 'monthly' ? 'mo' : 'yr';
+
+  let subscriptionPrice =
+    DATA.SUBSCRIPTIONS[subscriptionLevel].price[billingFrequency];
+
+  let subscriptionPriceTag = `$${subscriptionPrice}/${priceSuffix}`;
+
+  let addOnEls = (function () {
+    let addOnEls = [];
+
+    for (let id of addOnIds) {
+      let addOnData = DATA.ADD_ONS[id];
+      let price = addOnData.price[billingFrequency];
+      let priceTag = `+$${price}/${priceSuffix}`;
+
+      let el = (
+        <li key={id}>
+          <span>{addOnData.name}</span>
+
+          <span>{priceTag}</span>
+        </li>
+      );
+
+      addOnEls.push(el);
+    }
+
+    return addOnEls;
+  })();
+
+  let totalPriceTag = (function () {
+    let totalPrice = subscriptionPrice;
+
+    for (let id of addOnIds) {
+      let addOnData = DATA.ADD_ONS[id];
+      let addOnPrice = addOnData.price[billingFrequency];
+      totalPrice += addOnPrice;
+    }
+
+    return `$${totalPrice}/${priceSuffix}`;
+  })();
+
+  return (
+    <section>
+      <div>
+        <h2>Finishing up</h2>
+
+        <p>Double-check everything looks OK before confirming.</p>
+      </div>
+
+      <div>
+        <section aria-label="Subscription">
+          <p>
+            <span>
+              {capitalize(subscriptionLevel)} ({capitalize(billingFrequency)})
+            </span>
+
+            <span>{subscriptionPriceTag}</span>
+          </p>
+
+          <button type="button">Change subscription</button>
+        </section>
+
+        <ul aria-label="Add-ons" hidden={addOnIds.length == 0}>
+          {addOnEls}
+        </ul>
+
+        <hr />
+
+        <p>
+          <span>Total ({capitalize(billingFrequency)})</span>
+
+          <span>{totalPriceTag}</span>
+        </p>
+      </div>
+
+      <div>
+        <button type="button">Go back</button>
+
+        <button type="submit">Confirm</button>
+      </div>
+    </section>
+  );
+}
+
+function capitalize(word) {
+  return word[0].toUpperCase() + word.slice(1);
 }
