@@ -72,6 +72,9 @@ export default function App() {
     },
   };
 
+  let billingFrequency = 'monthly';
+  let subscriptionLevel = 'arcade';
+
   return (
     <div>
       <header>
@@ -83,6 +86,11 @@ export default function App() {
       <main>
         <form>
           <SignupFormStepYourInfo />
+
+          <SignupFormStepSelectPlan
+            billingFrequency={billingFrequency}
+            subscriptionLevel={subscriptionLevel}
+          />
         </form>
       </main>
     </div>
@@ -200,6 +208,99 @@ function SignupFormStepYourInfo() {
         <button type="button" disabled>
           Next step
         </button>
+      </div>
+    </fieldset>
+  );
+}
+
+function SignupFormStepSelectPlan({ billingFrequency, subscriptionLevel }) {
+  let subscriptionLevelInputFields = Object.entries(DATA.SUBSCRIPTIONS).map(
+    function (entry) {
+      let [key, subscriptionData] = entry;
+      let priceElId = `${key}-price`;
+      let bonusElId = `${key}-bonus`;
+      let ariaDescribedBy = `${priceElId} ${bonusElId}`;
+      let priceSuffix = billingFrequency == 'monthly' ? 'mo' : 'yr';
+      let price = `$${subscriptionData.price[billingFrequency]}/${priceSuffix}`;
+
+      return (
+        <div key={key}>
+          <input
+            type="radio"
+            name="subscription-level"
+            id={key}
+            value={key}
+            aria-describedby={ariaDescribedBy}
+            required
+            checked={subscriptionLevel == key}
+          />
+
+          <div>
+            <label htmlFor={key}>{subscriptionData.name}</label>
+
+            <p id={priceElId}>{price}</p>
+
+            <p id={bonusElId} hidden={billingFrequency == 'monthly'}>
+              {subscriptionData.bonus}
+            </p>
+          </div>
+        </div>
+      );
+    },
+  );
+
+  return (
+    <fieldset>
+      <div>
+        <legend>Select your plan</legend>
+
+        <p>You have the option of monthly or yearly billing.</p>
+      </div>
+
+      <div>
+        <fieldset>
+          <legend>Billing frequency</legend>
+
+          <div>
+            <div>
+              <input
+                id="billing-frequency-monthly"
+                type="radio"
+                name="billing-frequency"
+                value="monthly"
+                checked={billingFrequency == 'monthly'}
+                required
+              />
+
+              <label htmlFor="billing-frequency-monthly">Monthly</label>
+            </div>
+
+            <div>
+              <input
+                id="billing-frequency-yearly"
+                type="radio"
+                name="billing-frequency"
+                value="yearly"
+                checked={billingFrequency == 'yearly'}
+                required
+              />
+
+              <label htmlFor="billing-frequency-yearly">Yearly</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Subscription level</legend>
+
+          <div>{subscriptionLevelInputFields}</div>
+        </fieldset>
+      </div>
+
+      <div>
+        <button type="button">Go back</button>
+
+        <button type="button">Next step</button>
       </div>
     </fieldset>
   );
