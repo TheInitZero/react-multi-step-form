@@ -94,6 +94,8 @@ export default function App() {
             billingFrequency={billingFrequency}
             subscriptionLevel={subscriptionLevel}
           />
+
+          <SignupFormStepAddOns billingFrequency={billingFrequency} />
         </form>
       </main>
     </div>
@@ -299,6 +301,55 @@ function SignupFormStepSelectPlan({ billingFrequency, subscriptionLevel }) {
           <div>{subscriptionLevelInputFields}</div>
         </fieldset>
       </div>
+
+      <div>
+        <button type="button">Go back</button>
+
+        <button type="button">Next step</button>
+      </div>
+    </fieldset>
+  );
+}
+
+function SignupFormStepAddOns({ billingFrequency }) {
+  let inputFields = Object.entries(DATA.ADD_ONS).map(function (entry) {
+    let [key, addOnData] = entry;
+    let priceElId = `${key}-price`;
+    let detailElId = `${key}-detail`;
+    let ariaDescribedBy = `${priceElId} ${detailElId}`;
+    let priceSuffix = billingFrequency == 'monthly' ? 'mo' : 'yr';
+    let price = `$${addOnData.price[billingFrequency]}/${priceSuffix}`;
+
+    return (
+      <li key={key}>
+        <input
+          type="checkbox"
+          name="add-ons"
+          id={key}
+          value={key}
+          aria-describedby={ariaDescribedBy}
+        />
+
+        <div>
+          <label htmlFor={key}>{addOnData.name}</label>
+
+          <p id={priceElId}>{price}</p>
+
+          <p id={detailElId}>{addOnData.detail}</p>
+        </div>
+      </li>
+    );
+  });
+
+  return (
+    <fieldset>
+      <div>
+        <legend>Pick add-ons</legend>
+
+        <p>Add-ons help enhance your gaming experience.</p>
+      </div>
+
+      <ul>{inputFields}</ul>
 
       <div>
         <button type="button">Go back</button>
