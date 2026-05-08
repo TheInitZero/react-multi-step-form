@@ -281,11 +281,15 @@ function SignupFormStepSelectPlan({ billingFrequency, subscriptionLevel }) {
       let price = `$${subscriptionData.price[billingFrequency]}/${priceSuffix}`;
 
       return (
-        <div key={key}>
+        <div
+          key={key}
+          className="p-2 border-2 border-blue-50 rounded-md relative bg-blue-50 shadow has-checked:border-blue-500 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-blue-500"
+        >
           <input
+            id={key}
+            className="focus:ring-0"
             type="radio"
             name="subscription-level"
-            id={key}
             value={key}
             aria-describedby={ariaDescribedBy}
             required
@@ -293,11 +297,25 @@ function SignupFormStepSelectPlan({ billingFrequency, subscriptionLevel }) {
           />
 
           <div>
-            <label htmlFor={key}>{subscriptionData.name}</label>
+            <label
+              className="text-blue-900 before:absolute before:inset-0 sm:text-lg"
+              htmlFor={key}
+            >
+              {subscriptionData.name}
+            </label>
 
-            <p id={priceElId}>{price}</p>
+            <p
+              id={priceElId}
+              className="text-sm font-bold text-blue-900/70 sm:text-base"
+            >
+              {price}
+            </p>
 
-            <p id={bonusElId} hidden={billingFrequency == 'monthly'}>
+            <p
+              id={bonusElId}
+              className="text-sm font-bold text-blue-900/70 sm:text-base"
+              hidden={billingFrequency == 'monthly'}
+            >
               {subscriptionData.bonus}
             </p>
           </div>
@@ -307,21 +325,28 @@ function SignupFormStepSelectPlan({ billingFrequency, subscriptionLevel }) {
   );
 
   return (
-    <fieldset>
+    <fieldset className="space-y-4">
       <div>
-        <legend>Select your plan</legend>
+        <legend className="text-xl font-bold text-blue-900 sm:text-3xl">
+          Select your plan
+        </legend>
 
-        <p>You have the option of monthly or yearly billing.</p>
+        <p className="text-blue-900/70 sm:text-lg">
+          You have the option of monthly or yearly billing.
+        </p>
       </div>
 
-      <div>
-        <fieldset>
-          <legend>Billing frequency</legend>
+      <div className="space-y-2">
+        <fieldset className="space-y-1">
+          <legend className="text-blue-900/70 font-bold sm:text-lg">
+            Billing frequency
+          </legend>
 
-          <div>
-            <div>
+          <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
+            <div className="p-2 border-2 border-blue-50 rounded-md relative flex items-center gap-2 bg-blue-50 shadow has-checked:border-blue-500 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-blue-500">
               <input
                 id="billing-frequency-monthly"
+                className="focus:ring-0"
                 type="radio"
                 name="billing-frequency"
                 value="monthly"
@@ -329,12 +354,18 @@ function SignupFormStepSelectPlan({ billingFrequency, subscriptionLevel }) {
                 required
               />
 
-              <label htmlFor="billing-frequency-monthly">Monthly</label>
+              <label
+                className="text-blue-900 before:absolute before:inset-0 sm:text-lg"
+                htmlFor="billing-frequency-monthly"
+              >
+                Monthly
+              </label>
             </div>
 
-            <div>
+            <div className="p-2 border-2 border-blue-50 rounded-md relative flex items-center gap-2 bg-blue-50 shadow has-checked:border-blue-500 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-blue-500">
               <input
                 id="billing-frequency-yearly"
+                className="focus:ring-0"
                 type="radio"
                 name="billing-frequency"
                 value="yearly"
@@ -342,22 +373,41 @@ function SignupFormStepSelectPlan({ billingFrequency, subscriptionLevel }) {
                 required
               />
 
-              <label htmlFor="billing-frequency-yearly">Yearly</label>
+              <label
+                className="text-blue-900 before:absolute before:inset-0 sm:text-lg"
+                htmlFor="billing-frequency-yearly"
+              >
+                Yearly
+              </label>
             </div>
           </div>
         </fieldset>
 
-        <fieldset>
-          <legend>Subscription level</legend>
+        <fieldset className="space-y-1">
+          <legend className="text-blue-900/70 font-bold sm:text-lg">
+            Subscription level
+          </legend>
 
-          <div>{subscriptionLevelInputFields}</div>
+          <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
+            {subscriptionLevelInputFields}
+          </div>
         </fieldset>
       </div>
 
-      <div>
-        <button type="button">Go back</button>
+      <div className="flex items-center justify-between">
+        <button
+          className="px-3 py-2 border-2 border-blue-600 rounded-md text-blue-900 cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-blue-500 aria-disabled:opacity-70 aria-disabled:cursor-not-allowed sm:text-lg"
+          type="button"
+        >
+          Go back
+        </button>
 
-        <button type="button">Next step</button>
+        <button
+          className="px-3 py-2 border-2 border-blue-600 rounded-md text-blue-50 bg-blue-600 cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-blue-500 aria-disabled:opacity-70 aria-disabled:cursor-not-allowed sm:text-lg"
+          type="button"
+        >
+          Next step
+        </button>
       </div>
     </fieldset>
   );
