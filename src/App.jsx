@@ -82,7 +82,9 @@ export default function App() {
   return (
     <div className="container p-6 mx-auto space-y-6">
       <header>
-        <h1>Signup</h1>
+        <h1 className="font-bold text-center text-3xl text-blue-900 sm:text-5xl">
+          Signup
+        </h1>
       </header>
 
       <SignupProgress model={model} />
