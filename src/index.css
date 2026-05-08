@@ -3,4 +3,8 @@
 
 @theme {
   --font-sans: 'Roboto', sans-serif;
+
+  --breakpoint-*: initial;
+  --breakpoint-sm: 30rem;
+  --breakpoint-md: 40rem;
 }
