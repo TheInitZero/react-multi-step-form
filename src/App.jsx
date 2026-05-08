@@ -195,7 +195,7 @@ function SignupFormStepYourInfo() {
             type="text"
             name="name"
             placeholder="e.g. Stephen King"
-            autocomplete="name"
+            autoComplete="name"
             aria-invalid="false"
             aria-describedby="name-error"
             required
@@ -219,7 +219,7 @@ function SignupFormStepYourInfo() {
             type="email"
             name="email"
             placeholder="e.g. stephenKing42@hotmail.com"
-            autocomplete="email"
+            autoComplete="email"
             aria-invalid="false"
             aria-describedby="email-error"
             required
@@ -243,7 +243,7 @@ function SignupFormStepYourInfo() {
             type="tel"
             name="telephone"
             placeholder="e.g. +1 234 567 890"
-            autocomplete="tel"
+            autoComplete="tel"
             aria-invalid="false"
             aria-describedby="telephone-error"
             required
