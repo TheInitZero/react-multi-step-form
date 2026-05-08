@@ -423,40 +423,73 @@ function SignupFormStepAddOns({ billingFrequency }) {
     let price = `$${addOnData.price[billingFrequency]}/${priceSuffix}`;
 
     return (
-      <li key={key}>
+      <li
+        key={key}
+        className="px-3 py-2 border-2 border-blue-50 rounded-md relative bg-blue-50 shadow has-checked:border-blue-500 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-blue-500"
+      >
         <input
+          id={key}
+          className="focus:ring-0"
           type="checkbox"
           name="add-ons"
-          id={key}
           value={key}
           aria-describedby={ariaDescribedBy}
         />
 
         <div>
-          <label htmlFor={key}>{addOnData.name}</label>
+          <label
+            className="text-blue-900 before:absolute before:inset-0 sm:text-lg"
+            htmlFor={key}
+          >
+            {addOnData.name}
+          </label>
 
-          <p id={priceElId}>{price}</p>
+          <p
+            id={priceElId}
+            className="mt-1 text-sm font-bold text-blue-900/70 sm:text-base"
+          >
+            {price}
+          </p>
 
-          <p id={detailElId}>{addOnData.detail}</p>
+          <p
+            id={detailElId}
+            className="text-sm font-bold text-blue-900/70 sm:text-base"
+          >
+            {addOnData.detail}
+          </p>
         </div>
       </li>
     );
   });
 
   return (
-    <fieldset>
+    <fieldset className="space-y-4">
       <div>
-        <legend>Pick add-ons</legend>
+        <legend className="text-xl font-bold text-blue-900 sm:text-3xl">
+          Pick add-ons
+        </legend>
 
-        <p>Add-ons help enhance your gaming experience.</p>
+        <p className="text-blue-900/70 sm:text-lg">
+          Add-ons help enhance your gaming experience.
+        </p>
       </div>
 
-      <ul>{inputFields}</ul>
+      <ul className="grid gap-2 sm:grid-cols-2">{inputFields}</ul>
 
-      <div>
-        <button type="button">Go back</button>
+      <div className="flex items-center justify-between">
+        <button
+          className="px-3 py-2 border-2 border-blue-600 rounded-md text-blue-900 cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-blue-500 aria-disabled:opacity-70 aria-disabled:cursor-not-allowed sm:text-lg"
+          type="button"
+        >
+          Go back
+        </button>
 
-        <button type="button">Next step</button>
+        <button
+          className="px-3 py-2 border-2 border-blue-600 rounded-md text-blue-50 bg-blue-600 cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-blue-500 aria-disabled:opacity-70 aria-disabled:cursor-not-allowed sm:text-lg"
+          type="button"
+        >
+          Next step
+        </button>
       </div>
     </fieldset>
   );
