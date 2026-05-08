@@ -137,21 +137,35 @@ function SignupProgress({ model }) {
 
     return (
       <li
+        className="flex flex-col items-center"
         key={key}
         aria-current={ariaCurrent}
         aria-labelledby={ariaLabelledBy}
         data-status={status}
+        data-component="signup-progress-step"
       >
-        <p id={titleElId}>{title}</p>
+        <p id={titleElId} className="sr-only sm:text-lg sm:not-sr-only">
+          {title}
+        </p>
 
-        <p id={statusElId}>{statusDescription}</p>
+        <p id={statusElId} className="sr-only">
+          {statusDescription}
+        </p>
       </li>
     );
   });
 
   return (
-    <aside aria-label="Signup progress">
-      <ol>{steps}</ol>
+    <aside
+      aria-label="Signup progress"
+      className="p-6 rounded-2xl bg-blue-100 shadow"
+    >
+      <ol
+        className="flex items-center justify-center gap-5"
+        data-component="signup-progress"
+      >
+        {steps}
+      </ol>
     </aside>
   );
 }

@@ -8,3 +8,34 @@
   --breakpoint-sm: 30rem;
   --breakpoint-md: 40rem;
 }
+
+@layer components {
+  [data-component='signup-progress'] {
+    counter-reset: signup-progress;
+  }
+
+  [data-component='signup-progress-step'] {
+    @apply relative;
+
+    &::before {
+      counter-increment: signup-progress;
+      content: counter(signup-progress);
+
+      @apply size-7 border-2 border-blue-400 rounded-full text-sm grid place-content-center sm:text-base;
+    }
+
+    &[data-status='started']::before {
+      @apply text-blue-50 bg-blue-600;
+    }
+
+    &[data-status='completed']::before {
+      @apply border-emerald-400 text-emerald-50 bg-emerald-600;
+    }
+
+    &[aria-current='step']::after {
+      content: '▴';
+
+      @apply text-blue-600 inline-block absolute -bottom-5;
+    }
+  }
+}
