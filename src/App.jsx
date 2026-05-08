@@ -191,7 +191,7 @@ function SignupFormStepYourInfo() {
 
           <input
             id="name"
-            className="rounded-md border-2 border-blue-500 focus:border-blue-700 focus:ring-0 focus:outline-2 focus:outline-blue-500 aria-invalid:border-red-500 sm:text-lg"
+            className="rounded-md border-2 border-blue-500 focus:ring-0 focus:outline-2 focus:outline-blue-500 aria-invalid:border-red-500 sm:text-lg"
             type="text"
             name="name"
             placeholder="e.g. Stephen King"
@@ -215,7 +215,7 @@ function SignupFormStepYourInfo() {
 
           <input
             id="email"
-            className="rounded-md border-2 border-blue-500 focus:border-blue-700 focus:ring-0 focus:outline-2 focus:outline-blue-500 aria-invalid:border-red-500 sm:text-lg"
+            className="rounded-md border-2 border-blue-500 focus:ring-0 focus:outline-2 focus:outline-blue-500 aria-invalid:border-red-500 sm:text-lg"
             type="email"
             name="email"
             placeholder="e.g. stephenKing42@hotmail.com"
@@ -239,7 +239,7 @@ function SignupFormStepYourInfo() {
 
           <input
             id="telephone"
-            className="rounded-md border-2 border-blue-500 focus:border-blue-700 focus:ring-0 focus:outline-2 focus:outline-blue-500 aria-invalid:border-red-500 sm:text-lg"
+            className="rounded-md border-2 border-blue-500 focus:ring-0 focus:outline-2 focus:outline-blue-500 aria-invalid:border-red-500 sm:text-lg"
             type="tel"
             name="telephone"
             placeholder="e.g. +1 234 567 890"
