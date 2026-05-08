@@ -90,7 +90,7 @@ export default function App() {
       <SignupProgress model={model} />
 
       <main>
-        <form>
+        <form className="p-6 rounded-2xl bg-blue-100 shadow">
           <SignupFormStepYourInfo />
 
           <SignupFormStepSelectPlan
@@ -172,7 +172,7 @@ function SignupProgress({ model }) {
 
 function SignupFormStepYourInfo() {
   return (
-    <fieldset className="p-6 rounded-2xl space-y-4 bg-blue-100 shadow">
+    <fieldset className="space-y-4">
       <div>
         <legend className="text-xl font-bold text-blue-900 sm:text-3xl">
           Personal info
