@@ -306,7 +306,7 @@ function SignupFormStepSelectPlan({ billingFrequency, subscriptionLevel }) {
 
             <p
               id={priceElId}
-              className="text-sm font-bold text-blue-900/70 sm:text-base"
+              className="mt-1 text-sm font-bold text-blue-900/70 sm:text-base"
             >
               {price}
             </p>
