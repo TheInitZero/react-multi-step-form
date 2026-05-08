@@ -516,10 +516,13 @@ function SignupFormStepSummary({
       let priceTag = `+$${price}/${priceSuffix}`;
 
       let el = (
-        <li key={id}>
+        <li
+          key={id}
+          className="text-blue-900/70 flex items-center justify-between sm:text-lg"
+        >
           <span>{addOnData.name}</span>
 
-          <span>{priceTag}</span>
+          <span className="font-bold">{priceTag}</span>
         </li>
       );
 
@@ -542,43 +545,62 @@ function SignupFormStepSummary({
   })();
 
   return (
-    <section>
+    <section className="space-y-4">
       <div>
-        <h2>Finishing up</h2>
+        <h2 className="text-xl font-bold text-blue-900 sm:text-3xl">
+          Finishing up
+        </h2>
 
-        <p>Double-check everything looks OK before confirming.</p>
+        <p className="text-blue-900/70 sm:text-lg">
+          Double-check everything looks OK before confirming.
+        </p>
       </div>
 
-      <div>
+      <div className="p-3 rounded-md space-y-2 bg-blue-50 shadow">
         <section aria-label="Subscription">
-          <p>
+          <p className="text-blue-900 flex items-center justify-between sm:text-lg">
             <span>
               {capitalize(subscriptionLevel)} ({capitalize(billingFrequency)})
             </span>
 
-            <span>{subscriptionPriceTag}</span>
+            <span className="font-bold">{subscriptionPriceTag}</span>
           </p>
 
-          <button type="button">Change subscription</button>
+          <button
+            className="text-sm text-blue-900 underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500 sm:text-base"
+            type="button"
+          >
+            Change subscription
+          </button>
         </section>
 
         <ul aria-label="Add-ons" hidden={addOnIds.length == 0}>
           {addOnEls}
         </ul>
 
-        <hr />
+        <hr className="block h-0.5 bg-blue-900 opacity-25" />
 
-        <p>
+        <p className="text-blue-900 flex items-center justify-between sm:text-lg">
           <span>Total ({capitalize(billingFrequency)})</span>
 
-          <span>{totalPriceTag}</span>
+          <span className="font-bold">{totalPriceTag}</span>
         </p>
       </div>
 
-      <div>
-        <button type="button">Go back</button>
+      <div className="flex items-center justify-between">
+        <button
+          className="px-3 py-2 border-2 border-blue-600 rounded-md text-blue-900 cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-blue-500 aria-disabled:opacity-70 aria-disabled:cursor-not-allowed sm:text-lg"
+          type="button"
+        >
+          Go back
+        </button>
 
-        <button type="submit">Confirm</button>
+        <button
+          className="px-3 py-2 border-2 border-blue-600 rounded-md text-blue-50 bg-blue-600 cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-blue-500 aria-disabled:opacity-70 aria-disabled:cursor-not-allowed sm:text-lg"
+          type="submit"
+        >
+          Confirm
+        </button>
       </div>
     </section>
   );
