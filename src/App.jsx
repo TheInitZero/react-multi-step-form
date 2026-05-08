@@ -283,7 +283,7 @@ function SignupFormStepSelectPlan({ billingFrequency, subscriptionLevel }) {
       return (
         <div
           key={key}
-          className="p-2 border-2 border-blue-50 rounded-md relative bg-blue-50 shadow has-checked:border-blue-500 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-blue-500"
+          className="px-3 py-2 border-2 border-blue-50 rounded-md relative bg-blue-50 shadow has-checked:border-blue-500 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-blue-500"
         >
           <input
             id={key}
@@ -343,7 +343,7 @@ function SignupFormStepSelectPlan({ billingFrequency, subscriptionLevel }) {
           </legend>
 
           <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
-            <div className="p-2 border-2 border-blue-50 rounded-md relative flex items-center gap-2 bg-blue-50 shadow has-checked:border-blue-500 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-blue-500">
+            <div className="px-3 py-2 border-2 border-blue-50 rounded-md relative flex items-center gap-2 bg-blue-50 shadow has-checked:border-blue-500 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-blue-500">
               <input
                 id="billing-frequency-monthly"
                 className="focus:ring-0"
@@ -362,7 +362,7 @@ function SignupFormStepSelectPlan({ billingFrequency, subscriptionLevel }) {
               </label>
             </div>
 
-            <div className="p-2 border-2 border-blue-50 rounded-md relative flex items-center gap-2 bg-blue-50 shadow has-checked:border-blue-500 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-blue-500">
+            <div className="px-3 py-2 border-2 border-blue-50 rounded-md relative flex items-center gap-2 bg-blue-50 shadow has-checked:border-blue-500 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-blue-500">
               <input
                 id="billing-frequency-yearly"
                 className="focus:ring-0"
