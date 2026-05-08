@@ -172,19 +172,26 @@ function SignupProgress({ model }) {
 
 function SignupFormStepYourInfo() {
   return (
-    <fieldset>
+    <fieldset className="p-6 rounded-2xl space-y-4 bg-blue-100 shadow">
       <div>
-        <legend>Personal info</legend>
+        <legend className="text-xl font-bold text-blue-900 sm:text-3xl">
+          Personal info
+        </legend>
 
-        <p>Please provide your name, email address, and phone number.</p>
+        <p className="text-blue-900/70 sm:text-lg">
+          Please provide your name, email address, and phone number.
+        </p>
       </div>
 
-      <div>
-        <div>
-          <label htmlFor="name">Name</label>
+      <div className="space-y-2">
+        <div className="grid">
+          <label htmlFor="name" className="text-blue-900 sm:text-lg">
+            Name
+          </label>
 
           <input
             id="name"
+            className="rounded-md border-2 border-blue-500 focus:border-blue-700 focus:ring-0 focus:outline-2 focus:outline-blue-500 aria-invalid:border-red-500 sm:text-lg"
             type="text"
             name="name"
             placeholder="e.g. Stephen King"
@@ -194,14 +201,21 @@ function SignupFormStepYourInfo() {
             required
           />
 
-          <span id="name-error" aria-live="assertive"></span>
+          <span
+            id="name-error"
+            className="text-sm font-bold text-red-500 sm:text-base"
+            aria-live="assertive"
+          ></span>
         </div>
 
-        <div>
-          <label htmlFor="email">Email address</label>
+        <div className="grid">
+          <label htmlFor="email" className="text-blue-900 sm:text-lg">
+            Email address
+          </label>
 
           <input
             id="email"
+            className="rounded-md border-2 border-blue-500 focus:border-blue-700 focus:ring-0 focus:outline-2 focus:outline-blue-500 aria-invalid:border-red-500 sm:text-lg"
             type="email"
             name="email"
             placeholder="e.g. stephenKing42@hotmail.com"
@@ -211,14 +225,21 @@ function SignupFormStepYourInfo() {
             required
           />
 
-          <span id="email-error" aria-live="assertive"></span>
+          <span
+            id="email-error"
+            className="text-sm font-bold text-red-500 sm:text-base"
+            aria-live="assertive"
+          ></span>
         </div>
 
-        <div>
-          <label htmlFor="telephone">Phone number</label>
+        <div className="grid">
+          <label htmlFor="telephone" className="text-blue-900 sm:text-lg">
+            Phone number
+          </label>
 
           <input
             id="telephone"
+            className="rounded-md border-2 border-blue-500 focus:border-blue-700 focus:ring-0 focus:outline-2 focus:outline-blue-500 aria-invalid:border-red-500 sm:text-lg"
             type="tel"
             name="telephone"
             placeholder="e.g. +1 234 567 890"
@@ -228,12 +249,20 @@ function SignupFormStepYourInfo() {
             required
           />
 
-          <span id="telephone-error" aria-live="assertive"></span>
+          <span
+            id="telephone-error"
+            className="text-sm font-bold text-red-500 sm:text-base"
+            aria-live="assertive"
+          ></span>
         </div>
       </div>
 
-      <div>
-        <button type="button" disabled>
+      <div className="flex items-center justify-end">
+        <button
+          className="px-3 py-2 rounded-md text-blue-50 bg-blue-600 cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-blue-500 aria-disabled:opacity-70 aria-disabled:cursor-not-allowed sm:text-lg"
+          type="button"
+          aria-disabled="false"
+        >
           Next step
         </button>
       </div>
