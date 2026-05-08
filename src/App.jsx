@@ -80,7 +80,7 @@ export default function App() {
   let addOnIds = ['online-service', 'larger-storage'];
 
   return (
-    <div>
+    <div className="container p-6 mx-auto space-y-6">
       <header>
         <h1>Signup</h1>
       </header>
