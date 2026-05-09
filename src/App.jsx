@@ -85,6 +85,7 @@ export default function App() {
 
       <main>
         <form
+          id="signup-form"
           className="p-6 rounded-2xl bg-blue-100 shadow"
           onSubmit={() => dispatch({ type: 'SUMMARY.CONFIRM' })}
         >
