@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSignupProgressActor } from './useSignupProgressActor';
 
 const DATA = {
@@ -73,6 +73,21 @@ export default function App() {
   let [billingFrequency, setBillingFrequency] = useState('monthly');
   let [subscriptionLevel, setSubscriptionLevel] = useState('arcade');
   let [addOnIds, setAddOnIds] = useState([]);
+
+  useEffect(
+    function () {
+      const TITLES = {
+        'your-info': 'Step 1 of 4: Your info | Signup',
+        'select-plan': 'Step 2 of 4: Select plan | Signup',
+        'add-ons': 'Step 3 of 4: Add-ons | Signup',
+        summary: 'Step 4 of 4: Summary | Signup',
+      };
+
+      let titleEl = document.querySelector('title');
+      titleEl.innerText = TITLES[model.currentStep];
+    },
+    [model.currentStep],
+  );
 
   return (
     <div className="container p-6 mx-auto space-y-6">
