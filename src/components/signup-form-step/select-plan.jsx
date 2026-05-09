@@ -1,6 +1,6 @@
 import { DATA } from '../../data';
 
-export function SignupFormStepSelectPlan({
+export function SelectPlan({
   billingFrequency,
   setBillingFrequency,
   subscriptionLevel,

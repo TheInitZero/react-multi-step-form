@@ -1,6 +1,6 @@
 import { DATA } from '../../data';
 
-export function SignupFormStepSummary({
+export function Summary({
   billingFrequency,
   subscriptionLevel,
   addOnIds,

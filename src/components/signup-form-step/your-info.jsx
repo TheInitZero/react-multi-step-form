@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export function SignupFormStepYourInfo({ model, dispatch }) {
+export function YourInfo({ model, dispatch }) {
   let [ariaInvalid, setAriaInvalid] = useState({
     name: false,
     email: false,

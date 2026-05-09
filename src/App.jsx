@@ -1,10 +1,7 @@
 import { useState } from 'react';
 import { usePageTitle, useSignupProgressActor } from './hooks';
 import { SignupProgress } from './components/signup-progress';
-import { SignupFormStepYourInfo } from './components/signup-form-step/your-info';
-import { SignupFormStepSelectPlan } from './components/signup-form-step/select-plan';
-import { SignupFormStepAddOns } from './components/signup-form-step/add-ons';
-import { SignupFormStepSummary } from './components/signup-form-step/summary';
+import { SignupFormStep } from './components/signup-form-step';
 
 export default function App() {
   let [model, dispatch] = useSignupProgressActor();
@@ -31,9 +28,9 @@ export default function App() {
           className="p-6 rounded-2xl bg-blue-100 shadow"
           onSubmit={() => dispatch({ type: 'SUMMARY.CONFIRM' })}
         >
-          <SignupFormStepYourInfo model={model} dispatch={dispatch} />
+          <SignupFormStep.YourInfo model={model} dispatch={dispatch} />
 
-          <SignupFormStepSelectPlan
+          <SignupFormStep.SelectPlan
             billingFrequency={billingFrequency}
             setBillingFrequency={setBillingFrequency}
             subscriptionLevel={subscriptionLevel}
@@ -42,7 +39,7 @@ export default function App() {
             dispatch={dispatch}
           />
 
-          <SignupFormStepAddOns
+          <SignupFormStep.AddOns
             addOnIds={addOnIds}
             setAddOnIds={setAddOnIds}
             billingFrequency={billingFrequency}
@@ -50,7 +47,7 @@ export default function App() {
             dispatch={dispatch}
           />
 
-          <SignupFormStepSummary
+          <SignupFormStep.Summary
             billingFrequency={billingFrequency}
             subscriptionLevel={subscriptionLevel}
             addOnIds={addOnIds}
