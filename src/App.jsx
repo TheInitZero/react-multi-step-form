@@ -71,7 +71,7 @@ export default function App() {
   let [model, dispatch] = useSignupProgressActor();
 
   let [billingFrequency, setBillingFrequency] = useState('monthly');
-  let subscriptionLevel = 'arcade';
+  let [subscriptionLevel, setSubscriptionLevel] = useState('arcade');
   let addOnIds = ['online-service', 'larger-storage'];
 
   return (
@@ -96,6 +96,7 @@ export default function App() {
             billingFrequency={billingFrequency}
             setBillingFrequency={setBillingFrequency}
             subscriptionLevel={subscriptionLevel}
+            setSubscriptionLevel={setSubscriptionLevel}
             model={model}
             dispatch={dispatch}
           />
@@ -368,6 +369,7 @@ function SignupFormStepSelectPlan({
   billingFrequency,
   setBillingFrequency,
   subscriptionLevel,
+  setSubscriptionLevel,
   model,
   dispatch,
 }) {
@@ -394,6 +396,7 @@ function SignupFormStepSelectPlan({
             aria-describedby={ariaDescribedBy}
             required
             checked={subscriptionLevel == key}
+            onChange={() => setSubscriptionLevel(key)}
           />
 
           <div>
