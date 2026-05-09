@@ -1,3 +1,5 @@
+import { useSignupProgressActor } from './useSignupProgressActor';
+
 const DATA = {
   SUBSCRIPTIONS: {
     arcade: {
@@ -65,15 +67,7 @@ const DATA = {
 };
 
 export default function App() {
-  let model = {
-    currentStep: 'your-info',
-    statuses: {
-      'your-info': 'started',
-      'select-plan': 'not-started',
-      'add-ons': 'not-started',
-      summary: 'not-started',
-    },
-  };
+  let [model, dispatch] = useSignupProgressActor();
 
   let billingFrequency = 'monthly';
   let subscriptionLevel = 'arcade';
@@ -90,20 +84,31 @@ export default function App() {
       <SignupProgress model={model} />
 
       <main>
-        <form className="p-6 rounded-2xl bg-blue-100 shadow">
-          <SignupFormStepYourInfo />
+        <form
+          className="p-6 rounded-2xl bg-blue-100 shadow"
+          onSubmit={() => dispatch({ type: 'SUMMARY.CONFIRM' })}
+        >
+          <SignupFormStepYourInfo model={model} dispatch={dispatch} />
 
           <SignupFormStepSelectPlan
             billingFrequency={billingFrequency}
             subscriptionLevel={subscriptionLevel}
+            model={model}
+            dispatch={dispatch}
           />
 
-          <SignupFormStepAddOns billingFrequency={billingFrequency} />
+          <SignupFormStepAddOns
+            billingFrequency={billingFrequency}
+            model={model}
+            dispatch={dispatch}
+          />
 
           <SignupFormStepSummary
             billingFrequency={billingFrequency}
             subscriptionLevel={subscriptionLevel}
             addOnIds={addOnIds}
+            model={model}
+            dispatch={dispatch}
           />
         </form>
       </main>
@@ -170,9 +175,9 @@ function SignupProgress({ model }) {
   );
 }
 
-function SignupFormStepYourInfo() {
+function SignupFormStepYourInfo({ model, dispatch }) {
   return (
-    <fieldset className="space-y-4">
+    <fieldset className="space-y-4" hidden={model.currentStep != 'your-info'}>
       <div>
         <legend className="text-xl font-bold text-blue-900 sm:text-3xl">
           Personal info
@@ -262,6 +267,12 @@ function SignupFormStepYourInfo() {
           className="px-3 py-2 border-2 border-blue-600 rounded-md text-blue-50 bg-blue-600 cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-blue-500 aria-disabled:opacity-70 aria-disabled:cursor-not-allowed sm:text-lg"
           type="button"
           aria-disabled="false"
+          onClick={() =>
+            dispatch({
+              type: 'YOUR_INFO.NEXT',
+              isInfoValid: true,
+            })
+          }
         >
           Next step
         </button>
@@ -270,7 +281,12 @@ function SignupFormStepYourInfo() {
   );
 }
 
-function SignupFormStepSelectPlan({ billingFrequency, subscriptionLevel }) {
+function SignupFormStepSelectPlan({
+  billingFrequency,
+  subscriptionLevel,
+  model,
+  dispatch,
+}) {
   let subscriptionLevelInputFields = Object.entries(DATA.SUBSCRIPTIONS).map(
     function (entry) {
       let [key, subscriptionData] = entry;
@@ -325,7 +341,7 @@ function SignupFormStepSelectPlan({ billingFrequency, subscriptionLevel }) {
   );
 
   return (
-    <fieldset className="space-y-4">
+    <fieldset className="space-y-4" hidden={model.currentStep != 'select-plan'}>
       <div>
         <legend className="text-xl font-bold text-blue-900 sm:text-3xl">
           Select your plan
@@ -398,6 +414,7 @@ function SignupFormStepSelectPlan({ billingFrequency, subscriptionLevel }) {
         <button
           className="px-3 py-2 border-2 border-blue-600 rounded-md text-blue-900 cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-blue-500 aria-disabled:opacity-70 aria-disabled:cursor-not-allowed sm:text-lg"
           type="button"
+          onClick={() => dispatch({ type: 'SELECT_PLAN.BACK' })}
         >
           Go back
         </button>
@@ -405,6 +422,7 @@ function SignupFormStepSelectPlan({ billingFrequency, subscriptionLevel }) {
         <button
           className="px-3 py-2 border-2 border-blue-600 rounded-md text-blue-50 bg-blue-600 cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-blue-500 aria-disabled:opacity-70 aria-disabled:cursor-not-allowed sm:text-lg"
           type="button"
+          onClick={() => dispatch({ type: 'SELECT_PLAN.NEXT' })}
         >
           Next step
         </button>
@@ -413,7 +431,7 @@ function SignupFormStepSelectPlan({ billingFrequency, subscriptionLevel }) {
   );
 }
 
-function SignupFormStepAddOns({ billingFrequency }) {
+function SignupFormStepAddOns({ billingFrequency, model, dispatch }) {
   let inputFields = Object.entries(DATA.ADD_ONS).map(function (entry) {
     let [key, addOnData] = entry;
     let priceElId = `${key}-price`;
@@ -463,7 +481,7 @@ function SignupFormStepAddOns({ billingFrequency }) {
   });
 
   return (
-    <fieldset className="space-y-4">
+    <fieldset className="space-y-4" hidden={model.currentStep != 'add-ons'}>
       <div>
         <legend className="text-xl font-bold text-blue-900 sm:text-3xl">
           Pick add-ons
@@ -480,6 +498,7 @@ function SignupFormStepAddOns({ billingFrequency }) {
         <button
           className="px-3 py-2 border-2 border-blue-600 rounded-md text-blue-900 cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-blue-500 aria-disabled:opacity-70 aria-disabled:cursor-not-allowed sm:text-lg"
           type="button"
+          onClick={() => dispatch({ type: 'ADD_ONS.BACK' })}
         >
           Go back
         </button>
@@ -487,6 +506,7 @@ function SignupFormStepAddOns({ billingFrequency }) {
         <button
           className="px-3 py-2 border-2 border-blue-600 rounded-md text-blue-50 bg-blue-600 cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-blue-500 aria-disabled:opacity-70 aria-disabled:cursor-not-allowed sm:text-lg"
           type="button"
+          onClick={() => dispatch({ type: 'ADD_ONS.NEXT' })}
         >
           Next step
         </button>
@@ -499,6 +519,8 @@ function SignupFormStepSummary({
   billingFrequency,
   subscriptionLevel,
   addOnIds,
+  model,
+  dispatch,
 }) {
   let priceSuffix = billingFrequency == 'monthly' ? 'mo' : 'yr';
 
@@ -545,7 +567,7 @@ function SignupFormStepSummary({
   })();
 
   return (
-    <section className="space-y-4">
+    <section className="space-y-4" hidden={model.currentStep != 'summary'}>
       <div>
         <h2 className="text-xl font-bold text-blue-900 sm:text-3xl">
           Finishing up
@@ -569,6 +591,7 @@ function SignupFormStepSummary({
           <button
             className="text-sm text-blue-900 underline focus:outline-2 focus:outline-offset-2 focus:outline-blue-500 sm:text-base"
             type="button"
+            onClick={() => dispatch({ type: 'SUMMARY.CHANGE_SUBSCRIPTION' })}
           >
             Change subscription
           </button>
@@ -591,6 +614,7 @@ function SignupFormStepSummary({
         <button
           className="px-3 py-2 border-2 border-blue-600 rounded-md text-blue-900 cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-blue-500 aria-disabled:opacity-70 aria-disabled:cursor-not-allowed sm:text-lg"
           type="button"
+          onClick={() => dispatch({ type: 'SUMMARY.BACK' })}
         >
           Go back
         </button>
