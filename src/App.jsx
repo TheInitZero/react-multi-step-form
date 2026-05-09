@@ -72,7 +72,7 @@ export default function App() {
 
   let [billingFrequency, setBillingFrequency] = useState('monthly');
   let [subscriptionLevel, setSubscriptionLevel] = useState('arcade');
-  let addOnIds = ['online-service', 'larger-storage'];
+  let [addOnIds, setAddOnIds] = useState([]);
 
   return (
     <div className="container p-6 mx-auto space-y-6">
@@ -102,6 +102,8 @@ export default function App() {
           />
 
           <SignupFormStepAddOns
+            addOnIds={addOnIds}
+            setAddOnIds={setAddOnIds}
             billingFrequency={billingFrequency}
             model={model}
             dispatch={dispatch}
@@ -520,7 +522,13 @@ function SignupFormStepSelectPlan({
   );
 }
 
-function SignupFormStepAddOns({ billingFrequency, model, dispatch }) {
+function SignupFormStepAddOns({
+  addOnIds,
+  setAddOnIds,
+  billingFrequency,
+  model,
+  dispatch,
+}) {
   let inputFields = Object.entries(DATA.ADD_ONS).map(function (entry) {
     let [key, addOnData] = entry;
     let priceElId = `${key}-price`;
@@ -540,7 +548,15 @@ function SignupFormStepAddOns({ billingFrequency, model, dispatch }) {
           type="checkbox"
           name="add-ons"
           value={key}
+          checked={addOnIds.includes(key)}
           aria-describedby={ariaDescribedBy}
+          onChange={function (event) {
+            setAddOnIds((prev) =>
+              event.target.checked
+                ? [...prev, key]
+                : prev.filter((item) => item != key),
+            );
+          }}
         />
 
         <div>
