@@ -70,7 +70,7 @@ const DATA = {
 export default function App() {
   let [model, dispatch] = useSignupProgressActor();
 
-  let billingFrequency = 'monthly';
+  let [billingFrequency, setBillingFrequency] = useState('monthly');
   let subscriptionLevel = 'arcade';
   let addOnIds = ['online-service', 'larger-storage'];
 
@@ -94,6 +94,7 @@ export default function App() {
 
           <SignupFormStepSelectPlan
             billingFrequency={billingFrequency}
+            setBillingFrequency={setBillingFrequency}
             subscriptionLevel={subscriptionLevel}
             model={model}
             dispatch={dispatch}
@@ -365,6 +366,7 @@ function SignupFormStepYourInfo({ model, dispatch }) {
 
 function SignupFormStepSelectPlan({
   billingFrequency,
+  setBillingFrequency,
   subscriptionLevel,
   model,
   dispatch,
@@ -450,6 +452,7 @@ function SignupFormStepSelectPlan({
                 value="monthly"
                 checked={billingFrequency == 'monthly'}
                 required
+                onChange={() => setBillingFrequency('monthly')}
               />
 
               <label
@@ -469,6 +472,7 @@ function SignupFormStepSelectPlan({
                 value="yearly"
                 checked={billingFrequency == 'yearly'}
                 required
+                onChange={() => setBillingFrequency('yearly')}
               />
 
               <label
